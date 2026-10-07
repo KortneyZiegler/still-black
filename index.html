@@ -686,10 +686,6 @@
         </div>
 
         <div class="action-group">
-          <a href="#live-qa" class="btn-cobalt" onclick="openLiveQaModal(event)">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
-            <span>Live Q&A Stage</span>
-          </a>
           <button class="btn-outline" onclick="openGuideModal()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
             <span>Host Toolkit & Guide</span>
@@ -825,8 +821,8 @@
             <p>On-demand global streaming access for community members across all devices with unlimited re-watches.</p>
           </div>
           <div class="package-item">
-            <h4>🎙️ 60-Min Live Keynote & Q&A</h4>
-            <p>Live virtual appearance by Dr. Kortney Ryan Ziegler (lecture, fireside chat, and moderated attendee talkback).</p>
+            <h4>🎞️ On-Demand Community Screening Access</h4>
+            <p>Full on-demand streaming access with synchronized closed captions and multi-device playback.</p>
           </div>
           <div class="package-item">
             <h4>📄 Facilitator & Marketing Suite</h4>
@@ -837,30 +833,26 @@
         <div class="prompt-card">
           <div class="prompt-title">⚡ ZERO-FRICTION HOST EXPERIENCE</div>
           <div class="prompt-body">
-            • <strong>Pre-Event AV Tech Check:</strong> 15-minute sound & video check with Dr. Ziegler's team 3–5 days prior.<br>
-            • <strong>Unlimited Concurrent Viewers:</strong> Google Cloud / Cloudflare edge caching ensures hundreds can stream at once with zero buffering.<br>
-            • <strong>Internal Archival Recording:</strong> Host is permitted to record the live 60-min keynote for a 30-day internal archive.
+            • <strong>High-Definition Streaming:</strong> Optimized adaptive bitrate streaming ensures hundreds can stream simultaneously with zero buffering.<br>
+            • <strong>Synchronized Captions:</strong> Full English closed captions accessible across all mobile and desktop devices.<br>
+            • <strong>Community Exhibition License:</strong> Full public performance and exhibition rights for community viewing and dialogue.
           </div>
         </div>
       </div>
 
-      <!-- TAB 2: 60-MINUTE RUN OF SHOW -->
+      <!-- TAB 2: COMMUNITY SCREENING & DISCUSSION FLOW -->
       <div id="drawerTabRunOfShow" style="display:none;">
         <div class="prompt-card">
-          <div class="prompt-title">00:00 – 05:00 • HOST WELCOME & INTRODUCTION</div>
-          <div class="prompt-body">Host leadership opens the room and introduces Dr. Kortney Ryan Ziegler, highlighting his groundbreaking scholarship (Northwestern Ph.D.) and pioneering social entrepreneurship.</div>
+          <div class="prompt-title">00:00 – 10:00 • COMMUNITY WELCOME & CONTEXT</div>
+          <div class="prompt-body">Host leadership welcomes attendees, frames the history of Black trans men in cinema, and shares guiding questions for viewing.</div>
         </div>
         <div class="prompt-card">
-          <div class="prompt-title">05:00 – 25:00 • KEYNOTE ADDRESS BY DR. ZIEGLER</div>
-          <div class="prompt-body">Tailored keynote thematic track: <em>Intergenerational Longevity & Aging</em> for community/elder hubs, <em>Out-Entrepreneurship & Innovation</em> for business chambers, or <em>Narrative Justice</em> for civic/academic forums.</div>
+          <div class="prompt-title">10:00 – 89:00 • FILM SCREENING: STILL BLACK</div>
+          <div class="prompt-body">Screen the full 78-minute documentary feature presentation with synchronized closed captions.</div>
         </div>
         <div class="prompt-card">
-          <div class="prompt-title">25:00 – 55:00 • MODERATED AUDIENCE Q&A</div>
-          <div class="prompt-body">Direct interactive talkback with attendees via live Zoom/Meet video mics or questions submitted through the screening portal teleprompter queue.</div>
-        </div>
-        <div class="prompt-card">
-          <div class="prompt-title">55:00 – 60:00 • CLOSING REMARKS & SURVEY</div>
-          <div class="prompt-body">Key takeaways, attendee survey link, and institutional wrap-up.</div>
+          <div class="prompt-title">89:00 – 120:00 • FACILITATED COMMUNITY DIALOGUE</div>
+          <div class="prompt-body">Open group conversation using the curated Discussion Modules covering longevity, faith, and civil rights.</div>
         </div>
       </div>
 
@@ -881,21 +873,7 @@
       </div>
     </div>
   </div>
-<!-- LIVE QA MODAL -->
-  <div class="modal-backdrop" id="qaModal">
-    <div class="modal-box" style="max-width: 480px;">
-      <div class="modal-header">
-        <h3 class="modal-title">Live Keynote & Q&A Stage</h3>
-        <button class="btn-close" onclick="closeModal('qaModal')">&times;</button>
-      </div>
-      <p style="font-size: 13px; color: var(--text-secondary); margin-bottom: 16px;">
-        The live keynote with Dr. Kortney Ryan Ziegler begins promptly at the scheduled time. Click below to enter the live room:
-      </p>
-      <div style="background:var(--cobalt-tint); border:1px solid var(--cobalt-border); padding:16px; border-radius:10px; margin-bottom:20px;">
-        <div style="font-size:11px; font-weight:700; color:var(--cobalt-primary); margin-bottom:4px; letter-spacing:0.04em;">STAGE PLATFORM</div>
-        <div id="stagePlatformText" style="font-size:13.5px; color:var(--text-nameplate); font-weight:600;">Zoom / Google Meet Live Stage</div>
-        <div id="stageHostText" style="font-size:12px; color:var(--text-muted); margin-top:4px;">Featuring: Dr. Kortney Ryan Ziegler (Live Keynote & Q&A)</div>
-      </div>
+
       <a id="liveStageBtn" href="https://zoom.us" target="_blank" rel="noopener noreferrer" class="btn-cobalt" style="width:100%; justify-content:center; padding:12px 16px; font-size:14px; text-decoration:none;">
         Launch Live Stage (Zoom) 🎙️
       </a>
@@ -914,6 +892,10 @@
       'WISCONSIN': 'Wisconsin LGBT Chamber Community Screening',
       'WIC': 'Wisconsin LGBT Chamber Community Screening',
       'CENTRE': 'Centre LGBT+ Community Screening',
+      'VENTURA': 'Diversity Collective Ventura County Community Screening',
+      'DIVERSITY': 'Diversity Collective Ventura County Community Screening',
+      'TRANSCANWORK': 'Trans Can Work Community Screening',
+      'TCW': 'Trans Can Work Community Screening',
       'ORLANDO': 'Come Out With Pride Orlando Community Screening',
       'PRIDE': 'Come Out With Pride Orlando Community Screening',
       'LIAM': 'The LIAM Foundation Community Screening'
@@ -929,83 +911,46 @@
 
     function initBranding() {
       const urlParams = new URLSearchParams(window.location.search);
-      const orgParam = urlParams.get('org');
       const keyParam = urlParams.get('key');
-      const zoomParam = urlParams.get('zoom');
-      const meetParam = urlParams.get('meet');
+      const orgParam = urlParams.get('org');
       const savedKey = localStorage.getItem('sb_event_key');
 
       let label = 'Virtual Community Screening';
 
-      if (orgParam) {
-        let cleanOrg = decodeURIComponent(orgParam).replace(/[-_+]+/g, ' ').trim();
-        // Check if cleanOrg matches a preset key
-        const upperOrg = cleanOrg.toUpperCase().replace(/\s+/g, '');
-        if (PRESET_KEYS[upperOrg]) {
-          label = PRESET_KEYS[upperOrg];
-        } else if (cleanOrg.toLowerCase().endsWith('screening')) {
-          label = cleanOrg;
+      const activeVal = keyParam || orgParam || savedKey;
+
+      if (activeVal) {
+        const raw = decodeURIComponent(activeVal).trim();
+        const upperClean = raw.toUpperCase().replace(/[-_+\s]+/g, '');
+        const upperRaw = raw.toUpperCase();
+
+        if (PRESET_KEYS[upperRaw]) {
+          label = PRESET_KEYS[upperRaw];
+        } else if (PRESET_KEYS[upperClean]) {
+          label = PRESET_KEYS[upperClean];
         } else {
-          label = cleanOrg + ' Community Screening';
+          let formatted = raw.replace(/[-_+]+/g, ' ').trim();
+          label = formatted.toLowerCase().endsWith('screening') ? formatted : (formatted + ' Community Screening');
         }
-      } else if (keyParam) {
-        const cleanKey = keyParam.trim().toUpperCase();
-        label = PRESET_KEYS[cleanKey] || (decodeURIComponent(keyParam) + ' Screening');
-      } else if (savedKey) {
-        const cleanKey = savedKey.trim().toUpperCase();
-        label = PRESET_KEYS[cleanKey] || (savedKey + ' Screening');
       }
 
       document.getElementById('orgTitle').textContent = label;
       document.title = 'STILL BLACK — ' + label;
-
-      // Update Key Button Labels
-      // key button refs removed
-      
-      const activeCode = keyParam || savedKey;
-
-      if (orgParam) {
-        
-        
-      } else if (activeCode) {
-        const cleanCode = activeCode.trim().toUpperCase();
-        
-        
-      } else {
-        
-        
-      }
-
-      // Dynamic Zoom / Meet Smart Launch
-      const stageBtn = document.getElementById('liveStageBtn');
-      const stagePlatform = document.getElementById('stagePlatformText');
-      const cleanKey = (keyParam || savedKey || '').trim().toUpperCase();
-
-      if (zoomParam) {
-        stageBtn.href = zoomParam;
-        stageBtn.textContent = 'Launch Live Stage (Zoom) 🎙️';
-        stagePlatform.textContent = 'Dedicated Zoom Meeting Room';
-      } else if (meetParam) {
-        stageBtn.href = meetParam;
-        stageBtn.textContent = 'Launch Live Stage (Google Meet) 🎙️';
-        stagePlatform.textContent = 'Dedicated Google Meet Room';
-      } else if (cleanKey && PRESET_MEETINGS[cleanKey]) {
-        stageBtn.href = PRESET_MEETINGS[cleanKey].url;
-        stageBtn.textContent = 'Launch Live Stage (' + PRESET_MEETINGS[cleanKey].platform + ') 🎙️';
-        stagePlatform.textContent = PRESET_MEETINGS[cleanKey].platform + ' (' + (PRESET_KEYS[cleanKey] || cleanKey) + ')';
-      }
     }
 
     // 2. HLS STREAM ENGINE INITIALIZATION
     const video = document.getElementById('cinemaVideo');
-    const streamHost = (window.location.hostname.includes('trycloudflare.com') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : 'https://helps-hostels-ours-merry.trycloudflare.com/';
+    const streamHost = (window.location.hostname.includes('trycloudflare.com') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : 'https://pvc-bacon-claire-boulder.trycloudflare.com/';
     const hlsSource = streamHost ? (streamHost + 'hls/master.m3u8') : 'hls/master.m3u8';
     let hlsInstance = null;
 
     if (Hls.isSupported()) {
       hlsInstance = new Hls({
         capLevelToPlayerSize: false,
-        autoStartLoad: true
+        autoStartLoad: true,
+        startLevel: 0,
+        maxBufferLength: 30,
+        maxMaxBufferLength: 60
       });
       hlsInstance.loadSource(hlsSource);
       hlsInstance.attachMedia(video);
@@ -1042,10 +987,7 @@
     function openGuideModal() {
       document.getElementById('guideModal').style.display = 'flex';
     }
-    function openLiveQaModal(e) {
-      e.preventDefault();
-      document.getElementById('qaModal').style.display = 'flex';
-    }
+    function openLiveQaModal(e) { if(e) e.preventDefault(); }
     function openSubjectModal(subject) {
       openGuideModal();
       switchDrawerTab('discussion');
