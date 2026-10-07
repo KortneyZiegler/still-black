@@ -940,8 +940,8 @@
 
     // 2. HLS STREAM ENGINE INITIALIZATION
     const video = document.getElementById('cinemaVideo');
-    const streamHost = (window.location.hostname.includes('trycloudflare.com') || window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? '' : 'https://pvc-bacon-claire-boulder.trycloudflare.com/';
-    const hlsSource = streamHost ? (streamHost + 'hls/master.m3u8') : 'hls/master.m3u8';
+    const streamHost = '';
+    const hlsSource = 'https://storage.googleapis.com/vouch-663d6.appspot.com/still-black-vod/master.m3u8';
     let hlsInstance = null;
 
     if (Hls.isSupported()) {
