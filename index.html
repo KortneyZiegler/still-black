@@ -940,8 +940,9 @@
 
     // 2. HLS STREAM ENGINE INITIALIZATION
     const video = document.getElementById('cinemaVideo');
-    const streamHost = '';
-    const hlsSource = 'https://storage.googleapis.com/vouch-663d6.appspot.com/still-black-vod/master.m3u8';
+    const streamHost = 'https://bonus-man-van-commander.trycloudflare.com/';
+    const hlsSource = streamHost + 'hls/master.m3u8';
+
     let hlsInstance = null;
 
     if (Hls.isSupported()) {
