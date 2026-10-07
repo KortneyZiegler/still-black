@@ -1,2 +1,1 @@
-# still-black
-STILL BLACK Virtual Screening Room
+# STILL BLACK Screening Platform
