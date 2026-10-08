@@ -604,6 +604,121 @@
       line-height: 1.35;
     }
 
+    .guide-intro {
+      font-size: 13px;
+      color: var(--text-secondary);
+      margin-bottom: 14px;
+    }
+
+    .prompt-list {
+      padding-left: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 13px;
+      color: var(--text-body);
+      line-height: 1.5;
+    }
+
+    .clip-row {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 6px;
+    }
+
+    .drawer-nav {
+      flex-wrap: wrap;
+    }
+
+    .promo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin: 10px 0 22px;
+    }
+
+    .promo-grid-6 {
+      grid-template-columns: repeat(6, 1fr);
+    }
+
+    .promo-tile {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      text-decoration: none;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-light);
+      border-radius: 8px;
+      padding: 6px;
+      transition: border-color 0.15s;
+    }
+
+    .promo-tile:hover {
+      border-color: var(--cobalt-primary);
+    }
+
+    .promo-tile img {
+      width: 100%;
+      aspect-ratio: 1 / 1;
+      object-fit: contain;
+      border-radius: 5px;
+      display: block;
+      background: #0A0A0A;
+    }
+
+    .promo-tile-title {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-nameplate);
+    }
+
+    .promo-tile-sub {
+      font-size: 10.5px;
+      color: var(--text-muted);
+      line-height: 1.3;
+    }
+
+    .copy-block {
+      border: 1px solid var(--border-light);
+      border-radius: 10px;
+      margin: 10px 0 12px;
+      overflow: hidden;
+    }
+
+    .copy-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--surface-subtle);
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .copy-text {
+      white-space: pre-wrap;
+      font-family: inherit;
+      font-size: 12.5px;
+      line-height: 1.5;
+      color: var(--text-body);
+      padding: 12px;
+      max-height: 180px;
+      overflow-y: auto;
+    }
+
+    .caption-downloads {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .caption-downloads a {
+      text-decoration: none;
+    }
+
     /* SUBJECT BIO MODAL */
     .bio-head {
       display: flex;
@@ -686,6 +801,9 @@
       }
       .package-grid {
         grid-template-columns: 1fr;
+      }
+      .promo-grid-6 {
+        grid-template-columns: repeat(3, 1fr);
       }
     }
 
@@ -907,6 +1025,7 @@
         <button class="drawer-tab active" id="tabBtnPackage" onclick="switchDrawerTab('package')">Turnkey Screening Package</button>
         <button class="drawer-tab" id="tabBtnRunOfShow" onclick="switchDrawerTab('runOfShow')">60-Min Run of Show</button>
         <button class="drawer-tab" id="tabBtnDiscussion" onclick="switchDrawerTab('discussion')">Discussion Prompts</button>
+        <button class="drawer-tab" id="tabBtnPromo" onclick="switchDrawerTab('promo')">Promo Kit</button>
       </div>
 
       <!-- TAB 1: TURNKEY PACKAGE DELIVERABLES -->
@@ -926,7 +1045,7 @@
           </div>
           <div class="package-item">
             <h4>📄 Facilitator & Marketing Suite</h4>
-            <p>12-page discussion curriculum, social promo graphics, promotional email copy, and full WebVTT closed captions.</p>
+            <p>Discussion guide with film clips, social media graphics, ready-to-post promo and email copy, and closed caption files (.srt &amp; .vtt). See the Promo Kit tab.</p>
           </div>
         </div>
 
@@ -952,23 +1071,185 @@
         </div>
         <div class="prompt-card">
           <div class="prompt-title">89:00 – 120:00 • FACILITATED COMMUNITY DIALOGUE</div>
-          <div class="prompt-body">Open group conversation using the curated Discussion Modules covering longevity, faith, and civil rights.</div>
+          <div class="prompt-body">Open group conversation using the Discussion Prompts: faith and family, Black manhood, and work and justice.</div>
         </div>
       </div>
 
       <!-- TAB 3: DISCUSSION PROMPTS -->
       <div id="drawerTabDiscussion" style="display:none;">
+        <p class="guide-intro">Questions are grouped by theme. Use the &#9654; buttons to replay the moment in the film before discussing it.</p>
         <div class="prompt-card">
-          <div class="prompt-title">MODULE 01 • INTERGENERATIONAL LONGEVITY & HEALING</div>
-          <div class="prompt-body">How do the life experiences of Ethan Young and Rev. Louis Mitchell bridge with younger journeys like Deacon Carl Madgett (raising twins) and poet James Welch? What does thriving look like across a lifespan?</div>
+          <div class="prompt-title">OPENING</div>
+          <ol class="prompt-list">
+            <li>Which person or moment stayed with you most, and why?</li>
+            <li>The film opens with Louis and Kylar noting that trans stories on screen “tend to all be white.” What changes when Black trans men tell their own stories?<div class="clip-row"><button class="chip-preset" onclick="jumpToScene(5)">&#9654; Opening · 0:05</button></div></li>
+          </ol>
         </div>
         <div class="prompt-card">
-          <div class="prompt-title">MODULE 02 • FAITH, FAMILY & THE DIVINE</div>
-          <div class="prompt-body">How do Deacon Carl Madgett and Rev. Louis Mitchell dismantle the myth that trans identity is separated from the divine? How does spiritual practice nurture resilience?</div>
+          <div class="prompt-title">FAITH, FAMILY &amp; BELONGING</div>
+          <ol class="prompt-list">
+            <li>Deacon Carl calls his church a “pillar of love,” where people discover they can be LGBT and still have a relationship with God. What makes a community feel like home? Where have you found that, or not?<div class="clip-row"><button class="chip-preset" onclick="jumpToScene(1679)">&#9654; Carl · 27:59</button></div></li>
+            <li>Nicholas came home to transition near his family. His sister struggled the most, yet they still play Monopoly until 2 a.m. on holidays. What does acceptance look like when it isn’t perfect?<div class="clip-row"><button class="chip-preset" onclick="jumpToScene(3840)">&#9654; Nicholas · 1:04:00</button></div></li>
+            <li>Louis says our loved ones are forced to “transition with us,” and asks us to give them as much time as it took us to accept ourselves. How do you balance patience with others against protecting yourself?<div class="clip-row"><button class="chip-preset" onclick="jumpToScene(3727)">&#9654; Louis · 1:02:07</button></div></li>
+          </ol>
         </div>
         <div class="prompt-card">
-          <div class="prompt-title">MODULE 03 • SERVICE, CIVIL RIGHTS & TRUTH</div>
-          <div class="prompt-body">Examining Nicholas Rashad’s journey home to his family, James Welch’s spoken-word honesty, and the workplace story behind Kylar Broadus’s landmark Senate testimony: how does telling our own stories transform institutional culture?</div>
+          <div class="prompt-title">BLACK MANHOOD &amp; HOW THE WORLD SEES YOU</div>
+          <ol class="prompt-list">
+            <li>Ethan says media shows Black men as either “superstar athlete or criminal,” with nothing in between, and describes strangers who wouldn’t stop to help him out of the snow. How do stereotypes shape everyday safety and kindness?<div class="clip-row"><button class="chip-preset" onclick="jumpToScene(1133)">&#9654; Ethan · 18:53</button></div></li>
+            <li>Carl wants to show “a positive side to black men,” and James says he doesn’t care to be “hard.” What kinds of Black manhood does this film make visible?<div class="clip-row"><button class="chip-preset" onclick="jumpToScene(2311)">&#9654; Carl · 38:31</button><button class="chip-preset" onclick="jumpToScene(2898)">&#9654; James · 48:18</button></div></li>
+            <li>Louis felt he had to be “harder than hard” before transition, and afterward realized he could be soft and goofy. Where do we pressure men, of any background, to overcompensate?<div class="clip-row"><button class="chip-preset" onclick="jumpToScene(3579)">&#9654; Louis · 59:39</button></div></li>
+          </ol>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-title">WORK, JUSTICE &amp; ADVOCACY</div>
+          <ol class="prompt-list">
+            <li>Kylar was pushed out of his corporate job within six months of announcing his transition, years before his Senate testimony. Where do workplaces still police how people dress or present?<div class="clip-row"><button class="chip-preset" onclick="jumpToScene(163)">&#9654; Kylar · 2:43</button></div></li>
+            <li>Kylar says people of color get “invited to the table” but are rarely in the decision-making seats. Who holds those seats in the LGBTQ organizations in your community?<div class="clip-row"><button class="chip-preset" onclick="jumpToScene(525)">&#9654; Kylar · 8:45</button></div></li>
+            <li>Carl is starting a mentoring group for young African American trans men, and Louis and his wife lead diversity trainings. What is one concrete step your group could take after tonight?</li>
+          </ol>
+        </div>
+        <div class="prompt-card">
+          <div class="prompt-title">CLOSING</div>
+          <ol class="prompt-list">
+            <li>Each man ends the film with a few words: “World peace.” “Be honest.” “Be who you are and love who you are.” If you closed the film, what would yours be?<div class="clip-row"><button class="chip-preset" onclick="jumpToScene(4567)">&#9654; Closing words · 1:16:07</button></div></li>
+          </ol>
+        </div>
+      </div>
+      <!-- TAB 4: PROMO KIT -->
+      <div id="drawerTabPromo" style="display:none;">
+        <p class="guide-intro">Everything you need to promote your screening. Click a graphic to download it, and copy the text below. Replace anything in [BRACKETS] with your event details.</p>
+
+        <div class="prompt-title">SOCIAL GRAPHICS</div>
+        <div class="promo-grid">
+            <a class="promo-tile" href="promo/still-black-square.jpg" download>
+              <img src="promo/still-black-square.jpg" alt="Square post" loading="lazy">
+              <span class="promo-tile-title">Square post</span>
+              <span class="promo-tile-sub">1080 × 1080 · Instagram, Facebook</span>
+            </a>
+            <a class="promo-tile" href="promo/still-black-story.jpg" download>
+              <img src="promo/still-black-story.jpg" alt="Story" loading="lazy">
+              <span class="promo-tile-title">Story</span>
+              <span class="promo-tile-sub">1080 × 1920 · Instagram & Facebook Stories</span>
+            </a>
+            <a class="promo-tile" href="promo/still-black-banner.jpg" download>
+              <img src="promo/still-black-banner.jpg" alt="Banner" loading="lazy">
+              <span class="promo-tile-title">Banner</span>
+              <span class="promo-tile-sub">1200 × 630 · LinkedIn, X, email header</span>
+            </a>
+        </div>
+
+        <div class="prompt-title">“MEET THE MEN” CAROUSEL</div>
+        <div class="promo-grid promo-grid-6">
+            <a class="promo-tile" href="promo/still-black-meet-madgett.jpg" download>
+              <img src="promo/still-black-meet-madgett.jpg" alt="Carl" loading="lazy">
+              <span class="promo-tile-title">Carl</span>
+              <span class="promo-tile-sub">1080 × 1350 · ↓ Download</span>
+            </a>
+            <a class="promo-tile" href="promo/still-black-meet-young.jpg" download>
+              <img src="promo/still-black-meet-young.jpg" alt="Ethan" loading="lazy">
+              <span class="promo-tile-title">Ethan</span>
+              <span class="promo-tile-sub">1080 × 1350 · ↓ Download</span>
+            </a>
+            <a class="promo-tile" href="promo/still-black-meet-broadus.jpg" download>
+              <img src="promo/still-black-meet-broadus.jpg" alt="Kylar" loading="lazy">
+              <span class="promo-tile-title">Kylar</span>
+              <span class="promo-tile-sub">1080 × 1350 · ↓ Download</span>
+            </a>
+            <a class="promo-tile" href="promo/still-black-meet-welch.jpg" download>
+              <img src="promo/still-black-meet-welch.jpg" alt="James" loading="lazy">
+              <span class="promo-tile-title">James</span>
+              <span class="promo-tile-sub">1080 × 1350 · ↓ Download</span>
+            </a>
+            <a class="promo-tile" href="promo/still-black-meet-rashad.jpg" download>
+              <img src="promo/still-black-meet-rashad.jpg" alt="Nicholas" loading="lazy">
+              <span class="promo-tile-title">Nicholas</span>
+              <span class="promo-tile-sub">1080 × 1350 · ↓ Download</span>
+            </a>
+            <a class="promo-tile" href="promo/still-black-meet-mitchell.jpg" download>
+              <img src="promo/still-black-meet-mitchell.jpg" alt="Louis" loading="lazy">
+              <span class="promo-tile-title">Louis</span>
+              <span class="promo-tile-sub">1080 × 1350 · ↓ Download</span>
+            </a>
+        </div>
+
+        <div class="prompt-title">READY-TO-POST TEXT</div>
+        <div class="copy-block">
+          <div class="copy-head"><span>Short description (event listings, newsletters)</span><button class="chip-preset" onclick="copyPromo(0, this)">Copy</button></div>
+          <pre class="copy-text" data-template="STILL BLACK: A Portrait of Black Trans Men is an intimate documentary by Dr. Kortney Ryan Ziegler. Six Black trans men (a civil rights attorney, a deacon and father, an artist, a poet, an ordained minister, and a student) share in their own words their stories of faith, family, love, work, and what it means to be a Black man in America. 78 minutes, English closed captions."></pre>
+        </div>
+        <div class="copy-block">
+          <div class="copy-head"><span>Instagram / Facebook caption</span><button class="chip-preset" onclick="copyPromo(1, this)">Copy</button></div>
+          <pre class="copy-text" data-template="Six Black trans men. Their stories, in their own words. 🎬
+
+Join {ORG} for a virtual community screening of STILL BLACK: A Portrait of Black Trans Men, the documentary by Dr. Kortney Ryan Ziegler, followed by a community conversation.
+
+📅 [DATE] · [TIME]
+🔗 {LINK}
+
+Captions included. All are welcome.
+
+#StillBlack #BlackTransMen #CommunityScreening"></pre>
+        </div>
+        <div class="copy-block">
+          <div class="copy-head"><span>X / Threads / Bluesky post</span><button class="chip-preset" onclick="copyPromo(2, this)">Copy</button></div>
+          <pre class="copy-text" data-template="Six Black trans men. Their stories, in their own words.
+
+Join {ORG} for a virtual screening of STILL BLACK: A Portrait of Black Trans Men by Dr. Kortney Ryan Ziegler, plus a community conversation.
+
+[DATE] · {LINK}
+
+#StillBlack"></pre>
+        </div>
+        <div class="copy-block">
+          <div class="copy-head"><span>LinkedIn post</span><button class="chip-preset" onclick="copyPromo(3, this)">Copy</button></div>
+          <pre class="copy-text" data-template="We&#x27;re hosting a virtual community screening of STILL BLACK: A Portrait of Black Trans Men, a documentary by Dr. Kortney Ryan Ziegler.
+
+The film follows six Black trans men, among them a civil rights attorney pushed out of corporate America after announcing his transition, a deacon raising twin daughters, and a poet who says he has always &quot;written to stay alive.&quot; They speak candidly about work, faith, family, and how the world sees Black men.
+
+After the film, we&#x27;ll hold a facilitated conversation on belonging, Black manhood, and what equity looks like in our own workplaces and communities.
+
+📅 [DATE] · [TIME]
+Watch and join: {LINK}"></pre>
+        </div>
+        <div class="copy-block">
+          <div class="copy-head"><span>Email invitation</span><button class="chip-preset" onclick="copyPromo(4, this)">Copy</button></div>
+          <pre class="copy-text" data-template="Subject: You&#x27;re invited: STILL BLACK virtual community screening
+
+Hi [NAME],
+
+{ORG} invites you to a virtual community screening of STILL BLACK: A Portrait of Black Trans Men, an intimate documentary by Dr. Kortney Ryan Ziegler.
+
+In the film, six Black trans men share in their own words their stories of faith, family, love, work, and what it means to be a Black man in America. After the screening, we&#x27;ll come together for a facilitated conversation.
+
+When: [DATE] · [TIME]
+Where: {LINK}
+Length: 78 minutes, plus discussion. English closed captions included.
+
+The film streams on any phone, tablet, or computer. Just open the link a few minutes early and press play.
+
+We hope you&#x27;ll join us.
+
+[YOUR NAME]
+{ORG}"></pre>
+        </div>
+        <div class="copy-block">
+          <div class="copy-head"><span>&quot;Meet the men&quot; carousel caption</span><button class="chip-preset" onclick="copyPromo(5, this)">Copy</button></div>
+          <pre class="copy-text" data-template="Meet the men of STILL BLACK. 🖤
+
+Kylar · Carl · Ethan · James · Nicholas · Louis
+
+Six Black trans men sharing their stories of faith, family, love, and work, in their own words. Swipe to hear each man&#x27;s closing words from the film.
+
+Watch with {ORG}: {LINK}
+
+#StillBlack #BlackTransMen"></pre>
+        </div>
+
+        <div class="prompt-title">CLOSED CAPTIONS</div>
+        <div class="caption-downloads">
+          <a class="btn-outline" href="captions/still-black-en.srt" download>↓ English captions (.srt)</a>
+          <a class="btn-outline" href="captions/still-black-en.vtt" download>↓ English captions (.vtt)</a>
         </div>
       </div>
     </div>
@@ -1156,6 +1437,33 @@
       document.getElementById(id).style.display = 'none';
     }
 
+    function jumpToScene(seconds) {
+      closeModal('guideModal');
+      video.currentTime = seconds;
+      video.play();
+      document.querySelector('.cinema-viewport').scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+
+    // Fill promo templates with the host's organization and share link
+    function fillPromoText() {
+      const label = document.getElementById('orgTitle').textContent;
+      let org = label.replace(/\s*(Community|Institutional|Statewide QPOC|National Elder|Virtual Community)?\s*Screening$/i, '').trim();
+      if (!org || /^virtual$/i.test(org)) org = '[YOUR ORGANIZATION]';
+      const key = new URLSearchParams(window.location.search).get('key') || new URLSearchParams(window.location.search).get('org');
+      const link = 'https://screening.zieglerlab.online/' + (key ? '?key=' + encodeURIComponent(key) : '');
+      document.querySelectorAll('.copy-text').forEach(function (el) {
+        el.textContent = el.dataset.template.split('{ORG}').join(org).split('{LINK}').join(link);
+      });
+    }
+
+    function copyPromo(i, btn) {
+      const text = document.querySelectorAll('.copy-text')[i].textContent;
+      navigator.clipboard.writeText(text).then(function () {
+        btn.textContent = 'Copied ✓';
+        setTimeout(function () { btn.textContent = 'Copy'; }, 1800);
+      });
+    }
+
     function switchDrawerTab(tab) {
       document.getElementById('drawerTabPackage').style.display = tab === 'package' ? 'block' : 'none';
       document.getElementById('drawerTabRunOfShow').style.display = tab === 'runOfShow' ? 'block' : 'none';
@@ -1164,6 +1472,9 @@
       document.getElementById('tabBtnPackage').classList.toggle('active', tab === 'package');
       document.getElementById('tabBtnRunOfShow').classList.toggle('active', tab === 'runOfShow');
       document.getElementById('tabBtnDiscussion').classList.toggle('active', tab === 'discussion');
+      document.getElementById('drawerTabPromo').style.display = tab === 'promo' ? 'block' : 'none';
+      document.getElementById('tabBtnPromo').classList.toggle('active', tab === 'promo');
+      if (tab === 'promo') fillPromoText();
     }
 
     // Close on backdrop click
