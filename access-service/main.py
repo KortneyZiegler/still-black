@@ -8,6 +8,7 @@ Admin:   GET  /admin                   admin page
          /api/admin/...                requires header X-Admin-Password
 Org records live in a private GCS object.
 """
+import copy
 import datetime as dt
 import hashlib
 import hmac
@@ -42,7 +43,7 @@ WORDS = ("amber aspen birch bloom brook cedar clay cloud coral cove crane dawn d
 
 app = Flask(__name__)
 gcs = storage.Client()
-blob = gcs.bucket(CONFIG_BUCKET).blob(CONFIG_OBJECT)
+config_bucket = gcs.bucket(CONFIG_BUCKET)
 film = gcs.bucket(FILM_BUCKET).blob(FILM_OBJECT)
 signer, _ = google.auth.default(scopes=["https://www.googleapis.com/auth/cloud-platform"])
 _cache = {"at": 0.0, "orgs": {}, "gen": None}
@@ -55,23 +56,24 @@ def norm(code):
 
 
 def load(fresh=False):
+    """Return (orgs, generation). Callers get a copy, so a failed save never
+    leaves unsaved changes in the cache."""
     with _lock:
         if fresh or time.time() - _cache["at"] > 15:
-            try:
-                blob.reload()
-                _cache["orgs"] = json.loads(blob.download_as_text(if_generation_match=blob.generation))
-                _cache["gen"] = blob.generation
-            except Exception as e:  # first run: no file yet
-                if "404" not in str(e) and "No such object" not in str(e):
-                    raise
+            current = config_bucket.get_blob(CONFIG_OBJECT)
+            if current is None:
                 _cache["orgs"], _cache["gen"] = {}, 0
+            else:
+                _cache["orgs"] = json.loads(current.download_as_text(if_generation_match=current.generation))
+                _cache["gen"] = current.generation
             _cache["at"] = time.time()
-        return _cache["orgs"], _cache["gen"]
+        return copy.deepcopy(_cache["orgs"]), _cache["gen"]
 
 
 def save(orgs, gen):
-    blob.upload_from_string(json.dumps(orgs, indent=2, sort_keys=True),
-                            content_type="application/json", if_generation_match=gen)
+    config_bucket.blob(CONFIG_OBJECT).upload_from_string(
+        json.dumps(orgs, indent=2, sort_keys=True),
+        content_type="application/json", if_generation_match=gen)
     _cache["at"] = 0
 
 
