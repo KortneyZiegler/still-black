@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <title>STILL BLACK — Screening Admin</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F8FAFC; --card: #FFFFFF; --subtle: #F1F5F9; --line: #E2E8F0; --line2: #CBD5E1;
+      --ink: #0F172A; --body: #334155; --muted: #64748B; --blue: #2563EB; --blue-h: #1D4ED8;
+      --tint: #EFF6FF; --green: #059669; --green-bg: #ECFDF5; --red: #B91C1C; --red-bg: #FEF2F2;
+      --amber: #B45309; --amber-bg: #FFFBEB;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { background: var(--bg); color: var(--body); font-family: Inter, -apple-system, sans-serif; line-height: 1.5; }
+    header { background: #fff; border-bottom: 1px solid var(--line); padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+    .brand { font-weight: 800; letter-spacing: .08em; color: var(--ink); }
+    .brand span { font-weight: 500; letter-spacing: 0; color: var(--muted); margin-left: 8px; }
+    main { max-width: 1040px; margin: 0 auto; padding: 28px 16px 64px; display: flex; flex-direction: column; gap: 24px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 22px; }
+    h2 { font-size: 15px; font-weight: 800; color: var(--ink); margin-bottom: 4px; }
+    .hint { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+    label { display: block; font-size: 12px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+    input { width: 100%; padding: 10px 12px; font: inherit; font-size: 14px; border: 1px solid var(--line2); border-radius: 8px; background: #fff; color: var(--ink); }
+    input:focus { outline: 2px solid var(--blue); outline-offset: -1px; border-color: transparent; }
+    .row { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 12px; }
+    .field-note { font-size: 11px; color: var(--muted); margin-top: 3px; }
+    button { font: inherit; cursor: pointer; border-radius: 8px; }
+    .btn { background: var(--blue); color: #fff; border: none; font-weight: 600; font-size: 14px; padding: 10px 18px; }
+    .btn:hover { background: var(--blue-h); }
+    .btn:disabled { opacity: .6; cursor: wait; }
+    .btn-sm { background: #fff; color: var(--ink); border: 1px solid var(--line2); font-size: 12px; font-weight: 600; padding: 5px 10px; white-space: nowrap; }
+    .btn-sm:hover { background: var(--subtle); }
+    .btn-sm.danger { color: var(--red); }
+    .msg { font-size: 13px; color: var(--red); margin-top: 10px; min-height: 1em; }
+    .result { background: var(--tint); border: 1px solid rgba(37,99,235,.25); border-radius: 10px; padding: 16px; margin-top: 16px; display: none; }
+    .result pre { white-space: pre-wrap; font-family: inherit; font-size: 13.5px; color: var(--ink); margin: 8px 0 12px; }
+    .mono { font-family: 'JetBrains Mono', monospace; font-size: 12.5px; }
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    th { text-align: left; font-size: 11px; font-weight: 700; letter-spacing: .05em; text-transform: uppercase; color: var(--muted); padding: 8px 10px; border-bottom: 1px solid var(--line); }
+    td { padding: 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    td .name { font-weight: 700; color: var(--ink); }
+    td .code { color: var(--muted); }
+    .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+    .pill { display: inline-block; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 999px; }
+    .pill.on { color: var(--green); background: var(--green-bg); }
+    .pill.off { color: var(--muted); background: var(--subtle); }
+    .pill.exp { color: var(--amber); background: var(--amber-bg); }
+    .date-input { width: 140px; padding: 5px 8px; font-size: 12px; }
+    .login { max-width: 380px; margin: 12vh auto 0; }
+    .empty { color: var(--muted); font-size: 13px; padding: 16px 10px; }
+    @media (max-width: 700px) { .row { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">STILL BLACK <span>Screening Admin</span></div>
+    <button class="btn-sm" id="logoutBtn" style="display:none" onclick="logout()">Log out</button>
+  </header>
+
+  <!-- LOGIN -->
+  <main id="loginView">
+    <form class="card login" onsubmit="login(event)">
+      <h2>Admin sign in</h2>
+      <p class="hint">Enter your admin password to manage screening organizations.</p>
+      <input type="password" id="adminPass" placeholder="Admin password" autocomplete="current-password" required>
+      <button class="btn" style="width:100%;margin-top:12px">Sign in</button>
+      <div class="msg" id="loginMsg"></div>
+    </form>
+  </main>
+
+  <!-- APP -->
+  <main id="appView" style="display:none">
+    <form class="card" onsubmit="createOrg(event)">
+      <h2>Add an organization</h2>
+      <p class="hint">Creates the organization's private screening page and password. It works immediately.</p>
+      <div class="row">
+        <div>
+          <label for="orgName">Organization name (shown on their page)</label>
+          <input id="orgName" placeholder="e.g. Rainbow Center Community Screening" required oninput="suggestCode()">
+        </div>
+        <div>
+          <label for="orgCode">Link code</label>
+          <input id="orgCode" placeholder="RAINBOW" oninput="this.dataset.touched = 1">
+          <div class="field-note" id="codeNote">Their link ends in ?key=CODE</div>
+        </div>
+        <div>
+          <label for="orgUntil">License ends</label>
+          <input id="orgUntil" type="date">
+          <div class="field-note">Leave blank for no end date</div>
+        </div>
+      </div>
+      <button class="btn" id="createBtn" style="margin-top:16px">Create screening page</button>
+      <div class="msg" id="createMsg"></div>
+      <div class="result" id="result">
+        <h2>Ready to send ✓</h2>
+        <pre id="resultText"></pre>
+        <button type="button" class="btn-sm" onclick="copyText(document.getElementById('resultText').textContent, this)">Copy message for the organization</button>
+      </div>
+    </form>
+
+    <div class="card">
+      <h2>Organizations</h2>
+      <p class="hint" id="countHint">Loading…</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Organization</th><th>Password</th><th>License ends</th><th>Status</th><th>Actions</th></tr></thead>
+          <tbody id="orgRows"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const API = 'https://still-black-access-627372705145.us-central1.run.app';
+    let adminPass = '';
+    try { adminPass = sessionStorage.getItem('sb_admin') || ''; } catch (e) {}
+
+    async function api(path, body) {
+      const res = await fetch(API + path, {
+        method: body ? 'POST' : 'GET',
+        headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPass },
+        body: body ? JSON.stringify(body) : undefined
+      });
+      const data = await res.json().catch(function () { return {}; });
+      if (res.status === 401) { logout(); throw new Error('Wrong admin password. After 5 wrong tries, sign-in is paused for 15 minutes.'); }
+      if (!res.ok) throw new Error(data.error || 'Something went wrong.');
+      return data;
+    }
+
+    async function login(e) {
+      e.preventDefault();
+      adminPass = document.getElementById('adminPass').value;
+      try {
+        await refresh();
+        try { sessionStorage.setItem('sb_admin', adminPass); } catch (e) {}
+        showApp();
+      } catch (err) {
+        document.getElementById('loginMsg').textContent = err.message;
+      }
+    }
+
+    function logout() {
+      adminPass = '';
+      try { sessionStorage.removeItem('sb_admin'); } catch (e) {}
+      document.getElementById('appView').style.display = 'none';
+      document.getElementById('loginView').style.display = '';
+      document.getElementById('logoutBtn').style.display = 'none';
+    }
+
+    function showApp() {
+      document.getElementById('loginView').style.display = 'none';
+      document.getElementById('appView').style.display = '';
+      document.getElementById('logoutBtn').style.display = '';
+    }
+
+    function suggestCode() {
+      const code = document.getElementById('orgCode');
+      if (code.dataset.touched) return;
+      const words = document.getElementById('orgName').value.toUpperCase()
+        .replace(/[^A-Z0-9 ]/g, '').split(/\s+/)
+        .filter(function (w) { return w && !['THE', 'OF', 'AND', 'COMMUNITY', 'SCREENING', 'INC'].includes(w); });
+      code.value = words.slice(0, 2).join('').slice(0, 16);
+    }
+
+    function messageFor(o) {
+      return 'Your STILL BLACK screening room is ready!\n\n' +
+        'Link: ' + o.link + '\n' +
+        'Password: ' + o.password + '\n' +
+        (o.until ? 'Access through: ' + formatDate(o.until) + '\n' : '') +
+        '\nShare the link and password with your attendees. The film streams on any phone, tablet, or computer, ' +
+        'and the Host Toolkit on the page has the run of show, discussion guide, and promo kit.';
+    }
+
+    function formatDate(d) {
+      return d ? new Date(d + 'T12:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : '';
+    }
+
+    async function createOrg(e) {
+      e.preventDefault();
+      const btn = document.getElementById('createBtn');
+      btn.disabled = true;
+      document.getElementById('createMsg').textContent = '';
+      try {
+        const o = await api('/api/admin/orgs', {
+          name: document.getElementById('orgName').value,
+          code: document.getElementById('orgCode').value,
+          until: document.getElementById('orgUntil').value
+        });
+        document.getElementById('resultText').textContent = messageFor(o);
+        document.getElementById('result').style.display = 'block';
+        e.target.reset();
+        delete document.getElementById('orgCode').dataset.touched;
+        refresh();
+      } catch (err) {
+        document.getElementById('createMsg').textContent = err.message;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function act(code, action, extra) {
+      if (action === 'delete' && !confirm('Delete ' + code + '? Their link will stop working. This cannot be undone.')) return;
+      if (action === 'reset' && !confirm('Give ' + code + ' a new password? The old one will stop working right away.')) return;
+      try {
+        await api('/api/admin/orgs/' + encodeURIComponent(code), Object.assign({ action: action }, extra || {}));
+        refresh();
+      } catch (err) { alert(err.message); }
+    }
+
+    function copyText(text, btn) {
+      navigator.clipboard.writeText(text).then(function () {
+        const old = btn.textContent;
+        btn.textContent = 'Copied ✓';
+        setTimeout(function () { btn.textContent = old; }, 1500);
+      });
+    }
+
+    function el(tag, attrs, children) {
+      const n = document.createElement(tag);
+      Object.entries(attrs || {}).forEach(function (kv) {
+        if (kv[0] === 'text') n.textContent = kv[1];
+        else if (kv[0].startsWith('on')) n[kv[0]] = kv[1];
+        else n.setAttribute(kv[0], kv[1]);
+      });
+      (children || []).forEach(function (c) { if (c) n.appendChild(c); });
+      return n;
+    }
+
+    async function refresh() {
+      const data = await api('/api/admin/orgs');
+      const rows = document.getElementById('orgRows');
+      rows.innerHTML = '';
+      const active = data.orgs.filter(function (o) { return o.active && !o.expired; }).length;
+      document.getElementById('countHint').textContent =
+        data.orgs.length + ' organizations · ' + active + ' with active access';
+      if (!data.orgs.length) rows.appendChild(el('tr', {}, [el('td', { colspan: 5, class: 'empty', text: 'No organizations yet.' })]));
+      data.orgs.forEach(function (o) {
+        const status = !o.active ? el('span', { class: 'pill off', text: 'Turned off' })
+          : o.expired ? el('span', { class: 'pill exp', text: 'Expired' })
+          : el('span', { class: 'pill on', text: 'Active' });
+        const dateInput = el('input', { type: 'date', class: 'date-input', value: o.until || '' });
+        dateInput.onchange = function () { act(o.code, 'until', { until: dateInput.value }); };
+        rows.appendChild(el('tr', {}, [
+          el('td', {}, [
+            el('div', { class: 'name', text: o.name }),
+            el('div', { class: 'code mono', text: '?key=' + o.code + (o.aliases && o.aliases.length ? '  (also ' + o.aliases.join(', ') + ')' : '') })
+          ]),
+          el('td', {}, [el('span', { class: 'mono', text: o.password })]),
+          el('td', {}, [dateInput]),
+          el('td', {}, [status]),
+          el('td', {}, [el('div', { class: 'actions' }, [
+            el('button', { class: 'btn-sm', text: 'Copy message', onclick: function (e) { copyText(messageFor(o), e.target); } }),
+            el('button', { class: 'btn-sm', text: 'New password', onclick: function () { act(o.code, 'reset'); } }),
+            el('button', { class: 'btn-sm', text: o.active ? 'Turn off' : 'Turn on', onclick: function () { act(o.code, o.active ? 'disable' : 'enable'); } }),
+            el('button', { class: 'btn-sm danger', text: 'Delete', onclick: function () { act(o.code, 'delete'); } })
+          ])])
+        ]));
+      });
+    }
+
+    if (adminPass) refresh().then(showApp).catch(function () {});
+  </script>
+</body>
+</html>
