@@ -6,7 +6,7 @@
   <title>STILL BLACK — Exhibition Screening Room</title>
   
   <!-- HLS.js for Adaptive Bitrate Streaming -->
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@1.5.17/dist/hls.min.js"></script>
   
   <!-- Google Fonts: Inter & JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -178,6 +178,9 @@
       box-shadow: var(--shadow-cinema);
       border: 1px solid var(--border-light);
       position: relative;
+      width: 100%;
+      max-width: 760px;
+      margin: 0 auto;
     }
 
     .cinema-viewport video {
@@ -792,7 +795,7 @@
   <!-- FOOTER -->
   <footer>
     <span>STILL BLACK © Dr. Kortney Ryan Ziegler • All Rights Reserved</span>
-    <span>Broadcast-Grade HLS • High-Concurrency Architecture</span>
+    <span>Streaming via Google Cloud</span>
   </footer>
 
   <!-- HOST TOOLKIT & GUIDE MODAL -->
@@ -833,7 +836,7 @@
         <div class="prompt-card">
           <div class="prompt-title">⚡ ZERO-FRICTION HOST EXPERIENCE</div>
           <div class="prompt-body">
-            • <strong>High-Definition Streaming:</strong> Optimized adaptive bitrate streaming ensures hundreds can stream simultaneously with zero buffering.<br>
+            • <strong>Reliable Streaming:</strong> Hosted on Google Cloud so hundreds of viewers can watch at once, even on slower connections.<br>
             • <strong>Synchronized Captions:</strong> Full English closed captions accessible across all mobile and desktop devices.<br>
             • <strong>Community Exhibition License:</strong> Full public performance and exhibition rights for community viewing and dialogue.
           </div>
@@ -871,12 +874,6 @@
           <div class="prompt-body">Examining Nicholas Rashad’s military service, James Welch’s spoken-word honesty, and Kylar Broadus’s landmark Senate testimony: how does telling our own stories transform institutional culture?</div>
         </div>
       </div>
-    </div>
-  </div>
-
-      <a id="liveStageBtn" href="https://zoom.us" target="_blank" rel="noopener noreferrer" class="btn-cobalt" style="width:100%; justify-content:center; padding:12px 16px; font-size:14px; text-decoration:none;">
-        Launch Live Stage (Zoom) 🎙️
-      </a>
     </div>
   </div>
 
@@ -938,28 +935,39 @@
       document.title = 'STILL BLACK — ' + label;
     }
 
-    // 2. HLS STREAM ENGINE INITIALIZATION
-    const video = document.getElementById('cinemaVideo');
-    const streamHost = 'https://bonus-man-van-commander.trycloudflare.com/';
-    const hlsSource = streamHost + 'hls/master.m3u8';
+    // 2. STREAM ENGINE — film hosted on Google Cloud Storage
+    // Set FILM_URL to the public GCS link, e.g.
+    //   https://storage.googleapis.com/YOUR-BUCKET/STILLBLACKfilm-captioned.mp4
+    // or an HLS playlist: https://storage.googleapis.com/YOUR-BUCKET/hls/master.m3u8
+    const FILM_URL = 'https://storage.googleapis.com/still-black-streaming/STILLBLACKfilm-captioned%20(1).mp4';
 
+    const video = document.getElementById('cinemaVideo');
+    const isHls = /\.m3u8(\?|$)/i.test(FILM_URL);
     let hlsInstance = null;
 
-    if (Hls.isSupported()) {
-      hlsInstance = new Hls({
-        capLevelToPlayerSize: false,
-        autoStartLoad: true,
-        startLevel: 0,
-        maxBufferLength: 30,
-        maxMaxBufferLength: 60
-      });
-      hlsInstance.loadSource(hlsSource);
+    if (isHls && window.Hls && Hls.isSupported()) {
+      hlsInstance = new Hls({ startLevel: -1, maxBufferLength: 30, maxMaxBufferLength: 60 });
+      hlsInstance.loadSource(FILM_URL);
       hlsInstance.attachMedia(video);
-      hlsInstance.on(Hls.Events.MANIFEST_PARSED, function () {
-        console.log('HLS manifest parsed, levels available:', hlsInstance.levels.length);
+      hlsInstance.on(Hls.Events.ERROR, function (e, data) {
+        if (data.fatal) showStreamError();
       });
-    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-      video.src = hlsSource;
+    } else {
+      video.src = FILM_URL; // MP4, or native HLS on Safari/iOS
+      video.addEventListener('error', showStreamError);
+    }
+
+    // The quality picker only applies to multi-bitrate HLS
+    if (!isHls) document.querySelector('.quality-picker').style.display = 'none';
+
+    function showStreamError() {
+      const box = document.querySelector('.cinema-viewport');
+      if (box.querySelector('.stream-error')) return;
+      const msg = document.createElement('div');
+      msg.className = 'stream-error';
+      msg.style.cssText = 'position:absolute;inset:auto 0 0 0;padding:12px 16px;background:rgba(15,23,42,.85);color:#F8FAFC;font-size:13px;text-align:center;';
+      msg.textContent = 'The film could not be loaded. Please refresh, or contact your screening host.';
+      box.appendChild(msg);
     }
 
     function switchQuality(val) {
@@ -983,7 +991,7 @@
 
     // 3. MODAL CONTROLS
     function openKeyModal() {
-      document.getElementById('keyModal').style.display = 'flex';
+      const m = document.getElementById('keyModal'); if (m) m.style.display = 'flex';
     }
     function openGuideModal() {
       document.getElementById('guideModal').style.display = 'flex';
