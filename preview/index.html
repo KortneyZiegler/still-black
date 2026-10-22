@@ -1,0 +1,1236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>STILL BLACK — Evaluation Preview & Documentary Overview</title>
+  <meta name="description" content="Evaluation preview for STILL BLACK: A Portrait of Black Trans Men by Dr. Kortney Ryan Ziegler. Trailer, featured subject bios, host toolkit, and $500 community screening license.">
+  <meta property="og:type" content="video.movie">
+  <meta property="og:site_name" content="STILL BLACK">
+  <meta property="og:title" content="STILL BLACK: A Portrait of Black Trans Men — Evaluation Preview">
+  <meta property="og:description" content="Evaluation preview with official trailer, subject biographies, and turnkey institutional host toolkit. Directed by Dr. Kortney Ryan Ziegler.">
+  <meta property="og:url" content="https://screening.zieglerlab.online/preview">
+  <meta property="og:image" content="https://screening.zieglerlab.online/promo/still-black-banner.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --canvas-bg: #F8FAFC;
+      --surface-card: #FFFFFF;
+      --surface-subtle: #F1F5F9;
+      --cobalt-primary: #2563EB;
+      --cobalt-hover: #1D4ED8;
+      --cobalt-tint: #EFF6FF;
+      --cobalt-border: rgba(37, 99, 235, 0.25);
+      
+      --text-nameplate: #0F172A;
+      --text-primary: #1E293B;
+      --text-body: #334155;
+      --text-secondary: #475569;
+      --text-muted: #64748B;
+      --text-dim: #94A3B8;
+      
+      --border-light: #E2E8F0;
+      --border-divider: #CBD5E1;
+      
+      --shadow-subtle: 0 1px 3px rgba(15, 23, 42, 0.04);
+      --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.06);
+      --shadow-cinema: 0 20px 50px -10px rgba(15, 23, 42, 0.12);
+      --radius-sm: 6px;
+      --radius-md: 10px;
+      --radius-lg: 16px;
+      --radius-full: 9999px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      background-color: var(--canvas-bg);
+      color: var(--text-body);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      line-height: 1.5;
+      padding-bottom: 80px;
+    }
+
+    /* TOP BAR / NAVIGATION */
+    header.top-header {
+      background: var(--surface-card);
+      border-bottom: 1px solid var(--border-light);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-subtle);
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 14px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .brand-block {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+    }
+
+    .brand-title {
+      font-size: 19px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      color: var(--text-nameplate);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .badge-preview {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10.5px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 8px;
+      border-radius: var(--radius-full);
+      background: var(--cobalt-tint);
+      color: var(--cobalt-primary);
+      border: 1px solid var(--cobalt-border);
+    }
+
+    .brand-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .nav-link {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+
+    .nav-link:hover {
+      color: var(--cobalt-primary);
+    }
+
+    .btn-procure {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--cobalt-primary);
+      color: #FFFFFF;
+      padding: 9px 18px;
+      border-radius: var(--radius-md);
+      font-size: 13.5px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+    }
+
+    .btn-procure:hover {
+      background: var(--cobalt-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+    }
+
+    /* MAIN CONTAINER */
+    main.main-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 36px 24px;
+    }
+
+    /* HERO BANNER */
+    .hero-banner {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .hero-kicker {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--cobalt-primary);
+      margin-bottom: 8px;
+    }
+
+    .hero-heading {
+      font-size: 38px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--text-nameplate);
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+
+    .hero-lead {
+      max-width: 820px;
+      margin: 0 auto;
+      font-size: 16.5px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* CINEMA PLAYER CARD */
+    .cinema-card {
+      background: #0B0F17;
+      border-radius: var(--radius-lg);
+      padding: 16px;
+      box-shadow: var(--shadow-cinema);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      margin-bottom: 32px;
+    }
+
+    .cinema-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 14px 14px 14px;
+      color: #E2E8F0;
+      font-size: 13px;
+    }
+
+    .cinema-tag {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      color: #94A3B8;
+    }
+
+    .cinema-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #10B981;
+      box-shadow: 0 0 8px #10B981;
+    }
+
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+      height: 0;
+      overflow: hidden;
+      border-radius: 10px;
+      background: #000;
+    }
+
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    .cinema-footer {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 12px 6px 12px;
+      color: #94A3B8;
+      font-size: 12.5px;
+    }
+
+    .cinema-notice {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cinema-notice svg {
+      color: #38BDF8;
+      flex-shrink: 0;
+    }
+
+    /* ACTION BAR */
+    .eval-cta-bar {
+      background: var(--surface-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 24px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      box-shadow: var(--shadow-card);
+      margin-bottom: 48px;
+    }
+
+    .eval-cta-info h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-nameplate);
+      margin-bottom: 4px;
+    }
+
+    .eval-cta-info p {
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .eval-cta-actions {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-shrink: 0;
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--surface-subtle);
+      color: var(--text-primary);
+      padding: 10px 20px;
+      border-radius: var(--radius-md);
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid var(--border-light);
+      transition: all 0.15s ease;
+    }
+
+    .btn-secondary:hover {
+      background: #E2E8F0;
+    }
+
+    /* SECTION HEADERS */
+    .section-header {
+      margin-bottom: 28px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 16px;
+      border-bottom: 1px solid var(--border-light);
+      padding-bottom: 14px;
+    }
+
+    .section-title-cluster {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .accent-bar {
+      width: 4px;
+      height: 28px;
+      background: var(--cobalt-primary);
+      border-radius: 2px;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 800;
+      color: var(--text-nameplate);
+      letter-spacing: -0.02em;
+    }
+
+    .section-subtext {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* CAST GRID */
+    .cast-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 24px;
+      margin-bottom: 56px;
+    }
+
+    .subject-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .subject-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 25px -3px rgba(15, 23, 42, 0.09);
+      border-color: var(--cobalt-border);
+    }
+
+    .subject-visual {
+      position: relative;
+      width: 100%;
+      height: 260px;
+      overflow: hidden;
+      background: #0F172A;
+    }
+
+    .subject-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transition: transform 0.3s ease;
+    }
+
+    .subject-card:hover .subject-img {
+      transform: scale(1.03);
+    }
+
+    .subject-kicker {
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      background: rgba(15, 23, 42, 0.85);
+      color: #FFFFFF;
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .kicker-cobalt {
+      background: rgba(37, 99, 235, 0.9);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+
+    .subject-meta-strip {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 24px 16px 12px 16px;
+      background: linear-gradient(to top, rgba(15, 23, 42, 0.95) 0%, rgba(15, 23, 42, 0) 100%);
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+    }
+
+    .subject-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1.2;
+    }
+
+    .subject-loc {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #94A3B8;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .subject-content {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .subject-role-badge {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: var(--cobalt-primary);
+      margin-bottom: 10px;
+      display: block;
+    }
+
+    .subject-bio {
+      font-size: 13.5px;
+      color: var(--text-body);
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+
+    .subject-footer {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-light);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* HOST TOOLKIT & CURRICULUM SECTION */
+    .toolkit-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-bottom: 56px;
+    }
+
+    @media (max-width: 900px) {
+      .toolkit-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .toolkit-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow-card);
+    }
+
+    .toolkit-card h3 {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-nameplate);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .ros-timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .ros-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+
+    .ros-time {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--cobalt-primary);
+      background: var(--cobalt-tint);
+      padding: 4px 8px;
+      border-radius: var(--radius-sm);
+      white-space: nowrap;
+      margin-top: 2px;
+    }
+
+    .ros-details h4 {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-nameplate);
+      margin-bottom: 2px;
+    }
+
+    .ros-details p {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .prompt-block {
+      background: var(--surface-subtle);
+      border-left: 3px solid var(--cobalt-primary);
+      border-radius: 0 var(--radius-md) var(--radius-md) 0;
+      padding: 14px 16px;
+      margin-bottom: 14px;
+    }
+
+    .prompt-block:last-child {
+      margin-bottom: 0;
+    }
+
+    .prompt-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--cobalt-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 6px;
+    }
+
+    .prompt-body {
+      font-size: 13px;
+      color: var(--text-body);
+      line-height: 1.55;
+    }
+
+    /* PROCUREMENT / PRICING BOX */
+    .procure-box {
+      background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      color: #FFFFFF;
+      box-shadow: var(--shadow-cinema);
+      margin-bottom: 56px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .procure-box::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.25) 0%, rgba(37, 99, 235, 0) 70%);
+      pointer-events: none;
+    }
+
+    .procure-inner {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 36px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    @media (max-width: 860px) {
+      .procure-inner {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .procure-header h2 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .procure-header p {
+      font-size: 15px;
+      color: #CBD5E1;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .deliverables-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .deliverables-list {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .deliverables-list li {
+      font-size: 13px;
+      color: #E2E8F0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .deliverables-list svg {
+      color: #38BDF8;
+      flex-shrink: 0;
+    }
+
+    .pricing-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: var(--radius-md);
+      padding: 28px;
+      text-align: center;
+      backdrop-filter: blur(8px);
+    }
+
+    .pricing-term {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: #94A3B8;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+
+    .price-amount {
+      font-size: 44px;
+      font-weight: 800;
+      color: #FFFFFF;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .price-sub {
+      font-size: 12.5px;
+      color: #94A3B8;
+      margin-bottom: 22px;
+    }
+
+    .btn-checkout {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: #2563EB;
+      color: #FFFFFF;
+      font-size: 15px;
+      font-weight: 700;
+      padding: 14px 24px;
+      border-radius: var(--radius-md);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
+    }
+
+    .btn-checkout:hover {
+      background: #1D4ED8;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+    }
+
+    .instant-note {
+      font-size: 11.5px;
+      color: #94A3B8;
+      margin-top: 12px;
+    }
+
+    /* DIRECTOR PROFILE */
+    .director-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      box-shadow: var(--shadow-card);
+    }
+
+    @media (max-width: 700px) {
+      .director-card {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    .director-badge {
+      width: 96px;
+      height: 96px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #2563EB, #1E293B);
+      color: #FFFFFF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 800;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+    }
+
+    .director-info h3 {
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--text-nameplate);
+      margin-bottom: 4px;
+    }
+
+    .director-credentials {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      color: var(--cobalt-primary);
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .director-bio {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 14px;
+    }
+
+    .awards-strip {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .award-pill {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border-light);
+      padding: 4px 10px;
+      border-radius: var(--radius-full);
+      color: var(--text-secondary);
+      font-size: 11.5px;
+      font-weight: 500;
+    }
+
+    /* FOOTER */
+    footer.site-footer {
+      margin-top: 56px;
+      text-align: center;
+      border-top: 1px solid var(--border-light);
+      padding-top: 32px;
+      color: var(--text-muted);
+      font-size: 13px;
+    }
+
+    footer a {
+      color: var(--cobalt-primary);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVIGATION -->
+  <header class="top-header">
+    <div class="nav-container">
+      <a href="/preview" class="brand-block">
+        <span class="brand-title">
+          STILL BLACK
+          <span class="badge-preview">EVALUATION PREVIEW</span>
+        </span>
+      </a>
+
+      <nav class="nav-links">
+        <a href="#trailer" class="nav-link">Trailer</a>
+        <a href="#subjects" class="nav-link">The Six Subjects</a>
+        <a href="#toolkit" class="nav-link">Host Toolkit</a>
+        <a href="https://buy.stripe.com/9B6bJ2ab6de18QOdZz0x20E" target="_blank" rel="noopener noreferrer" class="btn-procure">
+          <span>License ($500)</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- MAIN BODY -->
+  <main class="main-content">
+
+    <!-- HERO HEADER -->
+    <section class="hero-banner">
+      <div class="hero-kicker">CURATORIAL & INSTITUTIONAL EVALUATION</div>
+      <h1 class="hero-heading">STILL BLACK: A Portrait of Black Trans Men</h1>
+      <p class="hero-lead">
+        A canonical documentary exploring the lived experiences, resilience, careers, faith, and family lives of six Black transgender men in America. Directed by Dr. Kortney Ryan Ziegler.
+      </p>
+    </section>
+
+    <!-- TRAILER CINEMA FRAME -->
+    <section class="cinema-card" id="trailer">
+      <div class="cinema-header">
+        <div class="cinema-tag">
+          <span class="cinema-dot"></span>
+          <span>OFFICIAL TRAILER • 1080P HD PREVIEW</span>
+        </div>
+        <div class="cinema-duration">Canonical Black Queer Cinema • Directed by Dr. Kortney Ryan Ziegler</div>
+      </div>
+
+      <div class="video-wrapper">
+        <iframe 
+          src="https://www.youtube-nocookie.com/embed/JLdyvodyCCM?rel=0&modestbranding=1&controls=1" 
+          title="STILL BLACK: A Portrait of Black Trans Men — Official Trailer" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+          allowfullscreen>
+        </iframe>
+      </div>
+
+      <div class="cinema-footer">
+        <div class="cinema-notice">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span><strong>Evaluation Copy:</strong> The full 78-minute feature stream and synchronized English closed captions are unlocked immediately upon community license activation.</span>
+        </div>
+        <div>Run of Show: 78 Min Feature + 12-Page Discussion Curriculum</div>
+      </div>
+    </section>
+
+    <!-- FAST CTA BAR -->
+    <section class="eval-cta-bar">
+      <div class="eval-cta-info">
+        <h3>Turnkey November 2026 Community Screening License</h3>
+        <p>Flat $500 institutional license covering unlimited campus or community-wide on-demand viewing throughout Transgender Awareness Month.</p>
+      </div>
+      <div class="eval-cta-actions">
+        <a href="#toolkit" class="btn-secondary">Explore Host Toolkit</a>
+        <a href="https://buy.stripe.com/9B6bJ2ab6de18QOdZz0x20E" target="_blank" rel="noopener noreferrer" class="btn-procure">
+          Activate License ($500)
+        </a>
+      </div>
+    </section>
+
+    <!-- THE SIX SUBJECTS -->
+    <section id="subjects">
+      <div class="section-header">
+        <div class="section-title-cluster">
+          <div class="accent-bar"></div>
+          <h2 class="section-title">The Six Featured Subjects</h2>
+        </div>
+        <span class="section-subtext">DOCUMENTARY CAST ARCHIVE & BIOGRAPHIES</span>
+      </div>
+
+      <div class="cast-grid">
+
+        <!-- 01: Carl Madgett -->
+        <article class="subject-card">
+          <div class="subject-visual">
+            <img src="/promo/still-black-meet-madgett.jpg" alt="Carl Madgett" class="subject-img" onerror="this.src='/promo/still-black-square.jpg'">
+            <span class="subject-kicker">PASTOR & DAD</span>
+            <div class="subject-meta-strip">
+              <div>
+                <h3 class="subject-name">Carl Madgett</h3>
+              </div>
+              <span class="subject-loc">Chicago, IL</span>
+            </div>
+          </div>
+          <div class="subject-content">
+            <span class="subject-role-badge">Pastor, Husband & Father</span>
+            <p class="subject-bio">
+              Pastor Carl Madgett is a loving father of twins, husband, and spiritual shepherd in Chicago. In <em>STILL BLACK</em>, Carl speaks intimately about the joys and responsibilities of Black fatherhood, balancing community ministry, and actively dismantling the harmful myth that transgender identity is incompatible with pastoral calling and deep Christian faith.
+            </p>
+            <div class="subject-footer">
+              <span>Theme: Faith, Fatherhood & Ministry</span>
+              <span>Module 02 Spotlight</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 02: Ethan Young -->
+        <article class="subject-card">
+          <div class="subject-visual">
+            <img src="/promo/still-black-meet-young.jpg" alt="Ethan Young" class="subject-img" onerror="this.src='/promo/still-black-square.jpg'">
+            <span class="subject-kicker kicker-cobalt">ELDER & ARTIST</span>
+            <div class="subject-meta-strip">
+              <div>
+                <h3 class="subject-name">Ethan Young</h3>
+              </div>
+              <span class="subject-loc">Toledo, OH</span>
+            </div>
+          </div>
+          <div class="subject-content">
+            <span class="subject-role-badge">Visual Artist, Elder & Historian</span>
+            <p class="subject-bio">
+              Ethan Young brings rare, grounding intergenerational wisdom to the documentary as an elder and visual artist. Reflecting on decades of transition, creative practice, and community survival in the Midwest, Ethan’s narrative provides essential historical perspective on Black trans longevity, bodily peace, and thriving across an entire lifespan.
+            </p>
+            <div class="subject-footer">
+              <span>Theme: Intergenerational Longevity</span>
+              <span>Module 01 Spotlight</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 03: Kylar Broadus -->
+        <article class="subject-card">
+          <div class="subject-visual">
+            <img src="/promo/still-black-meet-broadus.jpg" alt="Kylar Broadus, Esq." class="subject-img" onerror="this.src='/promo/still-black-square.jpg'">
+            <span class="subject-kicker kicker-cobalt">LEGAL PIONEER</span>
+            <div class="subject-meta-strip">
+              <div>
+                <h3 class="subject-name">Kylar Broadus, Esq.</h3>
+              </div>
+              <span class="subject-loc">Columbia, MO</span>
+            </div>
+          </div>
+          <div class="subject-content">
+            <span class="subject-role-badge">Civil Rights Attorney & Professor</span>
+            <p class="subject-bio">
+              Kylar Broadus, Esq. is a historic civil rights attorney, law professor, and founder of the Trans People of Color Coalition (TPOCC). Kylar made American history as the very first openly transgender person to testify before the United States Senate (in support of the Employment Non-Discrimination Act), dedicating his life to civil rights advocacy, economic justice, and institutional change.
+            </p>
+            <div class="subject-footer">
+              <span>Theme: Civil Rights & US Senate Testimony</span>
+              <span>Module 03 Spotlight</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 04: James Welch -->
+        <article class="subject-card">
+          <div class="subject-visual">
+            <img src="/promo/still-black-meet-welch.jpg" alt="James Welch" class="subject-img" onerror="this.src='/promo/still-black-square.jpg'">
+            <span class="subject-kicker">YOUNG POET</span>
+            <div class="subject-meta-strip">
+              <div>
+                <h3 class="subject-name">James Welch</h3>
+              </div>
+              <span class="subject-loc">Evanston, IL</span>
+            </div>
+          </div>
+          <div class="subject-content">
+            <span class="subject-role-badge">Spoken Word Poet & Musician</span>
+            <p class="subject-bio">
+              James Welch represents the electrifying creative voice of young Black trans masculinity. As a spoken-word artist, lyricist, and musician, James articulates the vulnerable realities of youthful self-discovery, romantic intimacy, navigating social expectations, and claiming one's personal truth with uncompromised artistic courage.
+            </p>
+            <div class="subject-footer">
+              <span>Theme: Youth Voice & Spoken Word</span>
+              <span>Module 01 Spotlight</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 05: Nicholas Ishmael Rashad -->
+        <article class="subject-card">
+          <div class="subject-visual">
+            <img src="/promo/still-black-meet-rashad.jpg" alt="Nicholas Ishmael Rashad" class="subject-img" onerror="this.src='/promo/still-black-square.jpg'">
+            <span class="subject-kicker">VETERAN</span>
+            <div class="subject-meta-strip">
+              <div>
+                <h3 class="subject-name">Nicholas Rashad</h3>
+              </div>
+              <span class="subject-loc">Chicago, IL</span>
+            </div>
+          </div>
+          <div class="subject-content">
+            <span class="subject-role-badge">Military Veteran & Advocate</span>
+            <p class="subject-bio">
+              Nicholas Ishmael Rashad is an American armed forces veteran and community advocate. In <em>STILL BLACK</em>, Nicholas discusses military discipline, honor, navigating traditional institutional structures, and living as an unapologetic Black trans man with self-respect, quiet dignity, and principled pride.
+            </p>
+            <div class="subject-footer">
+              <span>Theme: Public Service & Self-Determination</span>
+              <span>Module 03 Spotlight</span>
+            </div>
+          </div>
+        </article>
+
+        <!-- 06: Rev. Louis Mitchell -->
+        <article class="subject-card">
+          <div class="subject-visual">
+            <img src="/promo/still-black-meet-mitchell.jpg" alt="Rev. Louis Mitchell" class="subject-img" onerror="this.src='/promo/still-black-square.jpg'">
+            <span class="subject-kicker kicker-cobalt">FAITH LEADER</span>
+            <div class="subject-meta-strip">
+              <div>
+                <h3 class="subject-name">Rev. Louis Mitchell</h3>
+              </div>
+              <span class="subject-loc">Springfield, MA</span>
+            </div>
+          </div>
+          <div class="subject-content">
+            <span class="subject-role-badge">Ordained Minister & Interfaith Pioneer</span>
+            <p class="subject-bio">
+              Rev. Louis Mitchell is an ordained minister, spiritual counselor, and nationally recognized interfaith pioneer. For decades, Rev. Mitchell has worked at the intersections of spiritual care, racial justice, and transgender affirmation, creating sacred sanctuary and healing ancestral spiritual trauma for Black LGBTQ+ individuals nationwide.
+            </p>
+            <div class="subject-footer">
+              <span>Theme: Sacred Belonging & Pastoral Care</span>
+              <span>Module 02 Spotlight</span>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- HOST & EVALUATION TOOLKIT -->
+    <section id="toolkit">
+      <div class="section-header">
+        <div class="section-title-cluster">
+          <div class="accent-bar"></div>
+          <h2 class="section-title">Host Toolkit & Curriculum Framework</h2>
+        </div>
+        <span class="section-subtext">TURNKEY FACILITATION DELIVERABLES</span>
+      </div>
+
+      <div class="toolkit-grid">
+
+        <!-- 60-MIN RUN OF SHOW -->
+        <div class="toolkit-card">
+          <h3>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Suggested 60–90 Min Event Run of Show
+          </h3>
+          <div class="ros-timeline">
+            <div class="ros-item">
+              <span class="ros-time">00:00 – 10:00</span>
+              <div class="ros-details">
+                <h4>Host Welcome & Curatorial Framing</h4>
+                <p>Welcome attendees, frame the groundbreaking history of Black trans men in American cinema, and introduce Dr. Ziegler's scholarship.</p>
+              </div>
+            </div>
+            <div class="ros-item">
+              <span class="ros-time">10:00 – 88:00</span>
+              <div class="ros-details">
+                <h4>Feature Screening: STILL BLACK</h4>
+                <p>Full 78-minute feature screening with synchronized English closed captions via web browser or venue projector.</p>
+              </div>
+            </div>
+            <div class="ros-item">
+              <span class="ros-time">88:00 – 110:00</span>
+              <div class="ros-details">
+                <h4>Facilitated Community Dialogue</h4>
+                <p>Guided discussion utilizing the 3 modular curriculum tracks covering intergenerational aging, faith, and civil rights.</p>
+              </div>
+            </div>
+            <div class="ros-item">
+              <span class="ros-time">110:00 – 115:00</span>
+              <div class="ros-details">
+                <h4>Action Commitments & Closing</h4>
+                <p>Connect attendees to regional trans mutual aid networks, legal defense funds, and ongoing wellness initiatives.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3 THEMATIC DISCUSSION MODULES -->
+        <div class="toolkit-card">
+          <h3>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            3-Part Discussion Curriculum Prompts
+          </h3>
+
+          <div class="prompt-block">
+            <div class="prompt-title">MODULE 01 • Intergenerational Longevity & Thriving</div>
+            <div class="prompt-body">
+              How do the elder perspectives of Ethan Young and Rev. Louis Mitchell bridge with younger journeys like Pastor Carl Madgett (raising twins) and poet James Welch? What does thriving look like across a full lifespan?
+            </div>
+          </div>
+
+          <div class="prompt-block">
+            <div class="prompt-title">MODULE 02 • Faith, Family & Sacred Belonging</div>
+            <div class="prompt-body">
+              How do Pastor Carl Madgett and Rev. Louis Mitchell dismantle the myth that transgender identity is separated from the divine? How does spiritual practice nurture personal resilience?
+            </div>
+          </div>
+
+          <div class="prompt-block">
+            <div class="prompt-title">MODULE 03 • Legal Advocacy & Senate Testimony</div>
+            <div class="prompt-body">
+              Examining Nicholas Rashad’s military service, James Welch’s spoken-word honesty, and Kylar Broadus’s landmark US Senate testimony: how does telling our own authentic stories transform legal institutions?
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- PROCUREMENT & STRIPE CHECKOUT BOX -->
+    <section class="procure-box" id="license">
+      <div class="procure-inner">
+        <div>
+          <div class="hero-kicker" style="color: #38BDF8;">COMMUNITY & INSTITUTIONAL PROCUREMENT</div>
+          <div class="procure-header">
+            <h2>Transgender Awareness Month 2026 Screening License</h2>
+            <p>
+              A turnkey, all-inclusive community screening license designed for universities, cultural centers, LGBTQ+ employee resource groups, and grassroots coalitions.
+            </p>
+          </div>
+
+          <ul class="deliverables-list">
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Public Performance Rights (PPL)</strong></span>
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>30-Day On-Demand Access</strong> (Nov 1–30)</span>
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Synchronized English Captions</strong></span>
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Multi-Device Streaming</strong> (Zero App Installs)</span>
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>12-Page Facilitator Curriculum</strong></span>
+            </li>
+            <li>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Full Digital Marketing Kit</strong> (Posters & Copy)</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="pricing-card">
+          <div class="pricing-term">FLAT INSTITUTIONAL RATE</div>
+          <div class="price-amount">$500</div>
+          <div class="price-sub">Unlimited viewers across your entire organization</div>
+          <a href="https://buy.stripe.com/9B6bJ2ab6de18QOdZz0x20E" target="_blank" rel="noopener noreferrer" class="btn-checkout">
+            <span>Secure License via Stripe</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+          <div class="instant-note">🔒 Instant Stripe checkout • Invoice & W-9 available upon request</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIRECTOR PROFILE -->
+    <section class="director-card">
+      <div class="director-badge">KZ</div>
+      <div class="director-info">
+        <h3>About the Director: Dr. Kortney Ryan Ziegler</h3>
+        <span class="director-credentials">Scholar, Artist & Technologist • First African American Studies Ph.D. (Northwestern University)</span>
+        <p class="director-bio">
+          Dr. Kortney Ryan Ziegler is an award-winning artist, scholar, and social entrepreneur. A cornerstone of Black queer cinema, Dr. Ziegler made history as the first person to graduate with a Ph.D. in African American Studies from Northwestern University. His multidisciplinary work sits at the intersection of media, economic empowerment, and queer liberation.
+        </p>
+        <div class="awards-strip">
+          <span class="award-pill">🏆 Isaac Julien Experimental Award (Queer Black Cinema)</span>
+          <span class="award-pill">🎖️ Audience Choice Award: Best Documentary (ReelOut)</span>
+          <span class="award-pill">🎬 Official Selection: Frameline 50</span>
+          <span class="award-pill">✉️ hello@zieglerlab.online</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="site-footer">
+      <p>
+        STILL BLACK: A Portrait of Black Trans Men &copy; 2026 Dr. Kortney Ryan Ziegler. All Rights Reserved.
+      </p>
+      <p style="margin-top: 6px;">
+        Institutional Inquiries & Live Keynote / Q&A Bookings: <a href="mailto:hello@zieglerlab.online">hello@zieglerlab.online</a>
+      </p>
+    </footer>
+
+  </main>
+
+</body>
+</html>
