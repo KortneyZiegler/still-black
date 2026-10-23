@@ -8,7 +8,7 @@
     // Licensed links (?key=CODE) open the organization's screening room
     if (/[?&](key|org)=/.test(window.location.search)) window.location.replace('/room/' + window.location.search);
   </script>
-  <meta name="description" content="License a community screening of STILL BLACK: A Portrait of Black Trans Men, the award-winning documentary by Dr. Kortney Ryan Ziegler. $500 flat rate, unlimited viewers.">
+  <meta name="description" content="License a community screening of STILL BLACK: A Portrait of Black Trans Men, the multiple award-winning documentary by Dr. Kortney Ryan Ziegler. $500 flat rate, unlimited viewers.">
   <meta property="og:type" content="video.movie">
   <meta property="og:site_name" content="STILL BLACK">
   <meta property="og:title" content="STILL BLACK: A Portrait of Black Trans Men — Community Screenings">
@@ -165,8 +165,12 @@
 
     /* HERO */
     .hero {
-      padding: 88px 0 56px;
+      padding: 64px 0 8px;
       text-align: center;
+    }
+
+    .trailer-top {
+      margin-top: 40px;
     }
 
     .kicker {
@@ -633,7 +637,10 @@
         display: none;
       }
       .hero {
-        padding: 56px 0 40px;
+        padding: 44px 0 0;
+      }
+      .trailer-top {
+        margin-top: 20px;
       }
       section {
         padding-top: 72px;
@@ -663,7 +670,6 @@
     <div class="wrap nav">
       <a class="logo" href="/">STILL BLACK <span>SCREENINGS</span></a>
       <nav class="nav-links">
-        <a href="#trailer">Trailer</a>
         <a href="#the-men">The Film</a>
         <a href="#license">License</a>
         <a class="btn btn-solid" href="https://buy.stripe.com/9B6bJ2ab6de18QOdZz0x20E" target="_blank" rel="noopener noreferrer">License · $500</a>
@@ -674,31 +680,30 @@
   <main>
     <div class="wrap">
 
-      <!-- HERO -->
-      <div class="hero">
-        <div class="kicker">Community &amp; Institutional Screenings</div>
-        <h1>Six Black trans men. Their stories, <span>in their own words.</span></h1>
-        <p class="lead"><strong>STILL BLACK: A Portrait of Black Trans Men</strong> is an award-winning documentary by Dr. Kortney Ryan Ziegler. Bring it to your campus, organization, or community with a private screening room built for conversation.</p>
-        <div class="hero-actions">
-          <a class="btn btn-solid" href="https://buy.stripe.com/9B6bJ2ab6de18QOdZz0x20E" target="_blank" rel="noopener noreferrer">License a Screening — $500</a>
-          <a class="btn btn-line" href="#trailer">Watch the Trailer</a>
-        </div>
-        <div class="hero-facts">
-          <span><b>78</b> minutes</span>
-          <span><b>English</b> closed captions</span>
-          <span><b>Unlimited</b> viewers</span>
-          <span><b>Any</b> phone, tablet, or computer</span>
-        </div>
-      </div>
-
       <!-- TRAILER -->
-      <div class="trailer" id="trailer">
+      <div class="trailer trailer-top" id="trailer">
         <div class="trailer-frame">
           <iframe src="https://www.youtube-nocookie.com/embed/JLdyvodyCCM?rel=0&amp;modestbranding=1&amp;controls=1" title="STILL BLACK: A Portrait of Black Trans Men — Official Trailer" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
         </div>
         <div class="trailer-caption">
           <b>OFFICIAL TRAILER</b>
           <span>The full film streams in your organization's private screening room.</span>
+        </div>
+      </div>
+
+      <!-- HERO -->
+      <div class="hero">
+        <div class="kicker">Community &amp; Institutional Screenings</div>
+        <h1>Six Black trans men. Their stories, <span>in their own words.</span></h1>
+        <p class="lead"><strong>STILL BLACK: A Portrait of Black Trans Men</strong> is a multiple award-winning documentary by Dr. Kortney Ryan Ziegler. Bring it to your campus, organization, or community with a private screening room built for conversation.</p>
+        <div class="hero-actions">
+          <a class="btn btn-solid" href="https://buy.stripe.com/9B6bJ2ab6de18QOdZz0x20E" target="_blank" rel="noopener noreferrer">License a Screening — $500</a>
+        </div>
+        <div class="hero-facts">
+          <span><b>78</b> minutes</span>
+          <span><b>English</b> closed captions</span>
+          <span><b>Unlimited</b> viewers</span>
+          <span><b>Any</b> phone, tablet, or computer</span>
         </div>
       </div>
 

@@ -34,6 +34,7 @@ FILM_BUCKET = os.environ.get("FILM_BUCKET", "still-black-streaming")
 FILM_OBJECT = os.environ.get("FILM_OBJECT", "STILLBLACKfilm-captioned (1).mp4")
 FILM_LINK_HOURS = 3
 OPEN_PAGE_PLAYS = os.environ.get("OPEN_PAGE_PLAYS", "1") == "1"
+PREVIEW_DAYS = 7
 ALLOWED_ORIGINS = {o.strip() for o in os.environ.get(
     "ALLOWED_ORIGINS", "https://screening.zieglerlab.online").split(",")}
 WORDS = ("amber aspen birch bloom brook cedar clay cloud coral cove crane dawn dove ember fern "
@@ -96,6 +97,11 @@ def expired(rec):
     return bool(rec.get("until")) and dt.date.today().isoformat() > rec["until"]
 
 
+def link_for(code, rec):
+    """Org links: /?key=CODE. Preview links: /preview/?key=CODE."""
+    return f"{SITE}preview/?key={code}" if rec.get("kind") == "preview" else f"{SITE}?key={code}"
+
+
 def new_password():
     return f"{secrets.choice(WORDS)}-{secrets.choice(WORDS)}-{secrets.randbelow(90) + 10}"
 
@@ -125,7 +131,8 @@ def org_info(code):
     if not rec or not rec.get("active", True):
         return jsonify(found=False), 404
     unlocked = hmac.compare_digest(request.headers.get("X-Access-Token", ""), token_for(key, rec))
-    return jsonify(found=True, code=key, name=rec["name"], expired=expired(rec), unlocked=unlocked)
+    return jsonify(found=True, code=key, name=rec["name"], kind=rec.get("kind", "org"),
+                   until=rec.get("until", ""), expired=expired(rec), unlocked=unlocked)
 
 
 @app.route("/api/org/<code>/unlock", methods=["POST", "OPTIONS"])
@@ -199,7 +206,7 @@ def admin_orgs():
         return jsonify(error="Wrong admin password."), 401
     if request.method == "GET":
         orgs, _ = load(fresh=True)
-        out = [dict(code=k, link=f"{SITE}?key={k}", expired=expired(v), **v) for k, v in orgs.items()]
+        out = [dict(code=k, link=link_for(k, v), expired=expired(v), **v) for k, v in orgs.items()]
         return jsonify(orgs=sorted(out, key=lambda o: o.get("created", ""), reverse=True))
     body = request.get_json(silent=True) or {}
     name = str(body.get("name", "")).strip()
@@ -210,12 +217,16 @@ def admin_orgs():
         orgs, gen = load(fresh=True)
         if code in orgs or any(code in v.get("aliases", []) for v in orgs.values()):
             return jsonify(error=f"The code {code} is already in use. Choose a different code."), 409
+        kind = "preview" if body.get("kind") == "preview" else "org"
+        until = body.get("until") or ""
+        if kind == "preview" and not until:
+            until = (dt.date.today() + dt.timedelta(days=PREVIEW_DAYS)).isoformat()
         orgs[code] = {"name": name, "password": str(body.get("password") or new_password()).strip(),
-                      "until": body.get("until") or "", "active": True,
+                      "until": until, "active": True, "kind": kind,
                       "created": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")}
         try:
             save(orgs, gen)
-            return jsonify(code=code, link=f"{SITE}?key={code}", **orgs[code])
+            return jsonify(code=code, link=link_for(code, orgs[code]), **orgs[code])
         except PreconditionFailed:
             continue
     return jsonify(error="Please try again."), 409
@@ -248,7 +259,7 @@ def admin_update(code):
             return jsonify(error="Unknown action."), 400
         try:
             save(orgs, gen)
-            return jsonify(ok=True, org=None if action == "delete" else dict(code=code, link=f"{SITE}?key={code}", **rec))
+            return jsonify(ok=True, org=None if action == "delete" else dict(code=code, link=link_for(code, rec), **rec))
         except PreconditionFailed:
             continue
     return jsonify(error="Please try again."), 409

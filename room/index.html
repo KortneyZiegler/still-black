@@ -1228,6 +1228,41 @@
     .org-gate-msg.org-gate-sub, .org-gate-credit {
       color: var(--lab-gray);
     }
+
+    /* PREVIEW BANNER */
+    .preview-banner {
+      background: var(--lab-navy);
+      color: #D1D5DB;
+      font-size: 14px;
+      padding: 10px 36px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .preview-banner strong {
+      color: #FFFFFF;
+    }
+
+    .preview-banner a {
+      color: var(--lab-navy);
+      background: var(--lab-teal);
+      padding: 7px 14px;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    .preview-banner a:hover {
+      background: #5EEAD4;
+    }
+
+    .org-gate-msg a {
+      color: var(--lab-teal-text);
+      font-weight: 600;
+    }
   </style>
 </head>
 <body>
@@ -1251,6 +1286,12 @@
       <div class="org-gate-msg" id="orgGateMsg" role="alert"></div>
       <div class="org-gate-credit">A documentary by Dr. Kortney Ryan Ziegler · 78 min · English CC</div>
     </div>
+  </div>
+
+  <!-- PREVIEW BANNER (preview links only) -->
+  <div class="preview-banner" id="previewBanner" style="display:none;">
+    <span><strong>Private preview</strong><span id="previewUntil"></span></span>
+    <a href="https://buy.stripe.com/9B6bJ2ab6de18QOdZz0x20E" target="_blank" rel="noopener noreferrer">License a screening · $500 →</a>
   </div>
 
   <!-- EDITORIAL HEADER (UNBOXED, ZERO PILLS) -->
@@ -1696,6 +1737,15 @@ Watch with {ORG}: {LINK}
       document.title = 'STILL BLACK — ' + label;
     }
 
+    function showPreviewBanner(until) {
+      if (until) {
+        const d = new Date(until + 'T12:00:00');
+        document.getElementById('previewUntil').textContent = ' \u00b7 available through ' +
+          d.toLocaleDateString(undefined, { month: 'long', day: 'numeric' });
+      }
+      document.getElementById('previewBanner').style.display = 'flex';
+    }
+
     async function initBranding() {
       const urlParams = new URLSearchParams(window.location.search);
       const code = (urlParams.get('key') || urlParams.get('org') || '').toUpperCase().replace(/[^A-Z0-9]/g, '');
@@ -1743,13 +1793,20 @@ Watch with {ORG}: {LINK}
       try { if (org.code !== code) localStorage.setItem('sb_alias_' + code, org.code); } catch (e) {}
       setTitle(org.name);
       document.getElementById('orgGateName').textContent = org.name;
+      const isPreview = org.kind === 'preview';
+      if (isPreview) document.querySelector('.org-gate-kicker').textContent = 'PRIVATE PREVIEW';
 
       if (org.expired) {
         document.getElementById('orgGateFaces').style.display = 'none';
         msg.className = 'org-gate-msg';
-        msg.textContent = 'This screening license has ended. Please contact your host to renew.';
+        if (isPreview) {
+          msg.innerHTML = 'This preview has ended. <a href="/#license">License a screening</a> or email <a href="mailto:hello@zieglerlab.online">hello@zieglerlab.online</a>.';
+        } else {
+          msg.textContent = 'This screening license has ended. Please contact your host to renew.';
+        }
         return;
       }
+      if (isPreview) showPreviewBanner(org.until);
       if (org.unlocked) {
         gate.style.display = 'none';
         document.body.style.overflow = '';

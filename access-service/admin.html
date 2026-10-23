@@ -50,10 +50,17 @@
     .pill.on { color: var(--green); background: var(--green-bg); }
     .pill.off { color: var(--muted); background: var(--subtle); }
     .pill.exp { color: var(--amber); background: var(--amber-bg); }
+    .pill.kind { color: var(--blue); background: var(--tint); margin-left: 6px; }
+    .kind-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+    .kind-toggle label { display: block; border: 1px solid var(--line2); border-radius: 10px; padding: 12px 14px; cursor: pointer; font-weight: 400; }
+    .kind-toggle label:has(input:checked) { border-color: var(--blue); background: var(--tint); }
+    .kind-toggle input { width: auto; margin-right: 6px; }
+    .kind-toggle strong { color: var(--ink); font-size: 13px; }
+    .kind-toggle span { display: block; font-size: 12px; color: var(--muted); margin-top: 2px; }
     .date-input { width: 140px; padding: 5px 8px; font-size: 12px; }
     .login { max-width: 380px; margin: 12vh auto 0; }
     .empty { color: var(--muted); font-size: 13px; padding: 16px 10px; }
-    @media (max-width: 700px) { .row { grid-template-columns: 1fr; } }
+    @media (max-width: 700px) { .row, .kind-toggle { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -76,11 +83,15 @@
   <!-- APP -->
   <main id="appView" style="display:none">
     <form class="card" onsubmit="createOrg(event)">
-      <h2>Add an organization</h2>
-      <p class="hint">Creates the organization's private screening page and password. It works immediately.</p>
+      <h2>Create a screening link</h2>
+      <p class="hint">Creates a private screening room link and password. It works immediately.</p>
+      <div class="kind-toggle" role="radiogroup">
+        <label><input type="radio" name="kind" value="org" checked onchange="kindChanged()"> <strong>Organization license</strong><span>Paid screening. Link: screening.zieglerlab.online/?key=CODE</span></label>
+        <label><input type="radio" name="kind" value="preview" onchange="kindChanged()"> <strong>Preview link</strong><span>For prospects to evaluate. Expires in 7 days unless you pick a date.</span></label>
+      </div>
       <div class="row">
         <div>
-          <label for="orgName">Organization name (shown on their page)</label>
+          <label for="orgName" id="orgNameLabel">Organization name (shown on their page)</label>
           <input id="orgName" placeholder="e.g. Rainbow Center Community Screening" required oninput="suggestCode()">
         </div>
         <div>
@@ -89,12 +100,12 @@
           <div class="field-note" id="codeNote">Their link ends in ?key=CODE</div>
         </div>
         <div>
-          <label for="orgUntil">License ends</label>
+          <label for="orgUntil">Access ends</label>
           <input id="orgUntil" type="date">
-          <div class="field-note">Leave blank for no end date</div>
+          <div class="field-note" id="untilNote">Leave blank for no end date</div>
         </div>
       </div>
-      <button class="btn" id="createBtn" style="margin-top:16px">Create screening page</button>
+      <button class="btn" id="createBtn" style="margin-top:16px">Create screening link</button>
       <div class="msg" id="createMsg"></div>
       <div class="result" id="result">
         <h2>Ready to send ✓</h2>
@@ -104,11 +115,11 @@
     </form>
 
     <div class="card">
-      <h2>Organizations</h2>
+      <h2>Screening links</h2>
       <p class="hint" id="countHint">Loading…</p>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Organization</th><th>Password</th><th>License ends</th><th>Status</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Screening link</th><th>Password</th><th>Access ends</th><th>Status</th><th>Actions</th></tr></thead>
           <tbody id="orgRows"></tbody>
         </table>
       </div>
@@ -167,7 +178,30 @@
       code.value = words.slice(0, 2).join('').slice(0, 16);
     }
 
+    function selectedKind() {
+      return document.querySelector('input[name="kind"]:checked').value;
+    }
+
+    function kindChanged() {
+      const preview = selectedKind() === 'preview';
+      document.getElementById('orgNameLabel').textContent = preview
+        ? 'Who is this preview for? (shown on their page)' : 'Organization name (shown on their page)';
+      document.getElementById('orgName').placeholder = preview
+        ? 'e.g. Rainbow Center (Preview)' : 'e.g. Rainbow Center Community Screening';
+      document.getElementById('untilNote').textContent = preview
+        ? 'Leave blank for 7 days from today' : 'Leave blank for no end date';
+    }
+
     function messageFor(o) {
+      if (o.kind === 'preview') {
+        return 'Here is your private preview of STILL BLACK: A Portrait of Black Trans Men.\n\n' +
+          'Link: ' + o.link + '\n' +
+          'Password: ' + o.password + '\n' +
+          (o.until ? 'Preview available through: ' + formatDate(o.until) + '\n' : '') +
+          '\nYou can watch the full film and explore the screening room your community would use, ' +
+          'including the discussion guide and promo kit. To license a screening for your organization ($500), ' +
+          'use the License button in the screening room or reply to this email.';
+      }
       return 'Your STILL BLACK screening room is ready!\n\n' +
         'Link: ' + o.link + '\n' +
         'Password: ' + o.password + '\n' +
@@ -189,12 +223,14 @@
         const o = await api('/api/admin/orgs', {
           name: document.getElementById('orgName').value,
           code: document.getElementById('orgCode').value,
+          kind: selectedKind(),
           until: document.getElementById('orgUntil').value
         });
         document.getElementById('resultText').textContent = messageFor(o);
         document.getElementById('result').style.display = 'block';
         e.target.reset();
         delete document.getElementById('orgCode').dataset.touched;
+        kindChanged();
         refresh();
       } catch (err) {
         document.getElementById('createMsg').textContent = err.message;
@@ -237,7 +273,7 @@
       rows.innerHTML = '';
       const active = data.orgs.filter(function (o) { return o.active && !o.expired; }).length;
       document.getElementById('countHint').textContent =
-        data.orgs.length + ' organizations · ' + active + ' with active access';
+        data.orgs.length + ' links · ' + active + ' with active access';
       if (!data.orgs.length) rows.appendChild(el('tr', {}, [el('td', { colspan: 5, class: 'empty', text: 'No organizations yet.' })]));
       data.orgs.forEach(function (o) {
         const status = !o.active ? el('span', { class: 'pill off', text: 'Turned off' })
@@ -247,8 +283,9 @@
         dateInput.onchange = function () { act(o.code, 'until', { until: dateInput.value }); };
         rows.appendChild(el('tr', {}, [
           el('td', {}, [
-            el('div', { class: 'name', text: o.name }),
-            el('div', { class: 'code mono', text: '?key=' + o.code + (o.aliases && o.aliases.length ? '  (also ' + o.aliases.join(', ') + ')' : '') })
+            el('div', { class: 'name' }, [document.createTextNode(o.name),
+              el('span', { class: 'pill kind', text: o.kind === 'preview' ? 'Preview' : 'License' })]),
+            el('div', { class: 'code mono', text: o.link.replace('https://', '') })
           ]),
           el('td', {}, [el('span', { class: 'mono', text: o.password })]),
           el('td', {}, [dateInput]),
