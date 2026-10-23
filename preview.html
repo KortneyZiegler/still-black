@@ -1,11 +1,16 @@
-<!-- preview redirect -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="refresh" content="0; url=/preview/">
-  <script>window.location.href = '/preview/';</script>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex">
+  <title>STILL BLACK</title>
+  <script>
+    // Links with a code open the screening room; otherwise go to the main page
+    var q = window.location.search;
+    window.location.replace(/[?&](key|org)=/.test(q) ? '/room/' + q : '/');
+  </script>
 </head>
 <body>
-  <p>Redirecting to <a href="/preview/">STILL BLACK Evaluation Preview</a>...</p>
+  <p><a href="/">STILL BLACK — Community Screenings</a></p>
 </body>
 </html>
