@@ -1373,7 +1373,6 @@
         </div>
       </div>
       <div class="org-gate-extras" id="orgGateExtras" style="display:none;">
-        <div class="org-gate-presenter">Presented by <strong id="orgGatePresenter"></strong></div>
         <p class="org-gate-note"><strong>Content note:</strong> This film includes discussion of self-harm, grief, and discrimination. English closed captions are available in the player.</p>
       </div>
       <div class="org-gate-msg" id="orgGateMsg" role="alert"></div>
@@ -1880,7 +1879,6 @@ Watch with {ORG}: {LINK}
 
       track(org.code, 'open');
       setTitle(org.name);
-      document.getElementById('orgGatePresenter').textContent = org.name;
       document.getElementById('orgGateName').textContent = org.name;
       const isPreview = org.kind === 'preview';
       if (isPreview) document.querySelector('.org-gate-kicker').textContent = 'PRIVATE PREVIEW';
