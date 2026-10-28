@@ -1275,6 +1275,10 @@
       color: var(--lab-navy);
     }
 
+    #orgGateForm {
+      margin-top: 24px;
+    }
+
     .org-gate-enter {
       width: 100%;
       max-width: 360px;
@@ -1293,6 +1297,58 @@
     .org-gate-note strong {
       color: var(--lab-navy);
     }
+
+    /* FILMMAKER WELCOME LETTER */
+    .org-gate-letter {
+      text-align: left;
+      background: #FFFFFF;
+      border: 1px solid var(--lab-line);
+      border-left: 4px solid var(--lab-teal);
+      padding: 22px 24px 20px;
+      margin: 4px 0 22px;
+      width: 100%;
+      font-size: 15px;
+      line-height: 1.65;
+      color: #374151;
+    }
+
+    .org-gate-letter p + p {
+      margin-top: 10px;
+    }
+
+    .org-gate-letter em {
+      font-style: normal;
+      font-weight: 800;
+      color: var(--lab-navy);
+    }
+
+    .org-gate-signature {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--lab-line);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .org-gate-sig-name {
+      font-family: "Snell Roundhand", "Segoe Script", "Brush Script MT", cursive;
+      font-size: 26px;
+      color: var(--lab-navy);
+      line-height: 1.2;
+    }
+
+    .org-gate-sig-role {
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--lab-teal-text);
+      margin-top: 2px;
+    }
+
+    .org-gate-faces {
+      margin-bottom: 18px;
+    }
   </style>
 </head>
 <body>
@@ -1302,15 +1358,24 @@
     <div class="org-gate-bg" id="orgGateBg"></div>
     <div class="org-gate-inner">
       <img class="org-gate-poster" id="orgGatePoster" alt="STILL BLACK: A Portrait of Black Transmen">
+      <form id="orgGateForm">
+        <button class="org-gate-btn org-gate-enter" type="submit">Enter screening room</button>
+      </form>
       <div class="org-gate-kicker">LICENSED SCREENING</div>
       <div class="org-gate-title" id="orgGateName"></div>
       <p class="org-gate-tagline">Six Black trans men. Their stories, in their own words.</p>
       <div class="org-gate-faces" id="orgGateFaces"></div>
-      <form id="orgGateForm">
+      <div class="org-gate-letter" id="orgGateLetter" style="display:none;">
+        <p>I made <em>STILL BLACK</em> so Black trans men could tell their own stories, in their own words. Since it premiered in 2008, it has helped spark more stories about a community that rarely gets the attention it deserves. Thank you for watching, and for staying for the conversation.</p>
+        <div class="org-gate-signature">
+          <span class="org-gate-sig-name">Dr. Kortney Ryan Ziegler</span>
+          <span class="org-gate-sig-role">Director, STILL BLACK</span>
+        </div>
+      </div>
+      <div class="org-gate-extras" id="orgGateExtras" style="display:none;">
         <div class="org-gate-presenter">Presented by <strong id="orgGatePresenter"></strong></div>
-        <button class="org-gate-btn org-gate-enter" type="submit">Enter screening room</button>
         <p class="org-gate-note"><strong>Content note:</strong> This film includes discussion of self-harm, grief, and discrimination. English closed captions are available in the player.</p>
-      </form>
+      </div>
       <div class="org-gate-msg" id="orgGateMsg" role="alert"></div>
       <div class="org-gate-credit">A documentary by Dr. Kortney Ryan Ziegler · 78 min · English CC</div>
     </div>
@@ -1846,6 +1911,8 @@ Watch with {ORG}: {LINK}
 
       msg.textContent = '';
       msg.className = 'org-gate-msg';
+      document.getElementById('orgGateLetter').style.display = 'block';
+      document.getElementById('orgGateExtras').style.display = 'block';
       form.style.display = 'block';
       form.querySelector('button').focus();
       form.onsubmit = function (e) {
