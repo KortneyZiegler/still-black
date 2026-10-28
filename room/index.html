@@ -1263,11 +1263,41 @@
       color: var(--lab-teal-text);
       font-weight: 600;
     }
+
+    /* WELCOME SCREEN */
+    .org-gate-presenter {
+      font-size: 14px;
+      color: var(--lab-gray);
+      margin-bottom: 14px;
+    }
+
+    .org-gate-presenter strong {
+      color: var(--lab-navy);
+    }
+
+    .org-gate-enter {
+      width: 100%;
+      max-width: 360px;
+      padding: 15px 22px;
+      font-size: 16px;
+    }
+
+    .org-gate-note {
+      font-size: 12.5px;
+      color: var(--lab-gray);
+      line-height: 1.5;
+      max-width: 440px;
+      margin: 18px auto 0;
+    }
+
+    .org-gate-note strong {
+      color: var(--lab-navy);
+    }
   </style>
 </head>
 <body>
 
-  <!-- ORGANIZATION PASSWORD LOCK -->
+  <!-- WELCOME SCREEN (organization and preview links) -->
   <div class="org-gate" id="orgGate" style="display:none;">
     <div class="org-gate-bg" id="orgGateBg"></div>
     <div class="org-gate-inner">
@@ -1277,11 +1307,9 @@
       <p class="org-gate-tagline">Six Black trans men. Their stories, in their own words.</p>
       <div class="org-gate-faces" id="orgGateFaces"></div>
       <form id="orgGateForm">
-        <label class="org-gate-label" for="orgGatePassword">Enter the screening password your host shared with you</label>
-        <div class="org-gate-row">
-          <input id="orgGatePassword" type="password" placeholder="Password" autocomplete="current-password" required>
-          <button class="org-gate-btn" type="submit">Enter screening room</button>
-        </div>
+        <div class="org-gate-presenter">Presented by <strong id="orgGatePresenter"></strong></div>
+        <button class="org-gate-btn org-gate-enter" type="submit">Enter screening room</button>
+        <p class="org-gate-note"><strong>Content note:</strong> This film includes discussion of self-harm, grief, and discrimination. English closed captions are available in the player.</p>
       </form>
       <div class="org-gate-msg" id="orgGateMsg" role="alert"></div>
       <div class="org-gate-credit">A documentary by Dr. Kortney Ryan Ziegler · 78 min · English CC</div>
@@ -1771,14 +1799,9 @@ Watch with {ORG}: {LINK}
       msg.className = 'org-gate-msg org-gate-sub';
       msg.textContent = 'Loading your screening room…';
 
-      let token = '';
-      try { token = localStorage.getItem('sb_token_' + code) || ''; } catch (e) {}
-      // Short links (e.g. TCW) share their organization's saved unlock
-      try { token = token || localStorage.getItem('sb_token_' + (localStorage.getItem('sb_alias_' + code) || '')) || ''; } catch (e) {}
-
       let org;
       try {
-        const res = await fetch(ACCESS_API + '/api/org/' + code, { headers: { 'X-Access-Token': token } });
+        const res = await fetch(ACCESS_API + '/api/org/' + code);
         if (res.status === 404) {   // unknown or turned-off link: go to the main page
           window.location.replace('/');
           return;
@@ -1790,8 +1813,9 @@ Watch with {ORG}: {LINK}
         return;
       }
 
-      try { if (org.code !== code) localStorage.setItem('sb_alias_' + code, org.code); } catch (e) {}
+      track(org.code, 'open');
       setTitle(org.name);
+      document.getElementById('orgGatePresenter').textContent = org.name;
       document.getElementById('orgGateName').textContent = org.name;
       const isPreview = org.kind === 'preview';
       if (isPreview) document.querySelector('.org-gate-kicker').textContent = 'PRIVATE PREVIEW';
@@ -1807,41 +1831,63 @@ Watch with {ORG}: {LINK}
         return;
       }
       if (isPreview) showPreviewBanner(org.until);
-      if (org.unlocked) {
+
+      function enterRoom() {
         gate.style.display = 'none';
         document.body.style.overflow = '';
         loadFilm(org.code);
-        return;
+        trackViewing(org.code);
       }
+
+      // Show the welcome screen once per visit; a refresh goes straight in
+      let entered = false;
+      try { entered = sessionStorage.getItem('sb_entered_' + org.code) === '1'; } catch (e) {}
+      if (entered) { enterRoom(); return; }
 
       msg.textContent = '';
       msg.className = 'org-gate-msg';
       form.style.display = 'block';
-      document.getElementById('orgGatePassword').focus();
-
-      form.onsubmit = async function (e) {
+      form.querySelector('button').focus();
+      form.onsubmit = function (e) {
         e.preventDefault();
-        const btn = form.querySelector('button');
-        btn.disabled = true;
-        msg.textContent = '';
-        try {
-          const res = await fetch(ACCESS_API + '/api/org/' + org.code + '/unlock', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ password: document.getElementById('orgGatePassword').value })
-          });
-          const data = await res.json();
-          if (!res.ok) throw new Error(data.error);
-          try { localStorage.setItem('sb_token_' + org.code, data.token); } catch (e) {}
-          gate.style.display = 'none';
-          loadFilm(org.code);
-          document.body.style.overflow = '';
-        } catch (err) {
-          msg.textContent = err.message || 'Something went wrong. Please try again.';
-        } finally {
-          btn.disabled = false;
-        }
+        try { sessionStorage.setItem('sb_entered_' + org.code, '1'); } catch (e) {}
+        track(org.code, 'enter');
+        enterRoom();
       };
+    }
+
+    // ANONYMOUS VIEWING ANALYTICS
+    // A random browser ID (no names, emails, or IP addresses) counts unique
+    // visitors per link: opened, entered, started the film, watched to the end.
+    function viewerId() {
+      let id = '';
+      try { id = localStorage.getItem('sb_vid') || ''; } catch (e) {}
+      if (!/^[a-z0-9]{8,40}$/.test(id)) {
+        id = Array.from(crypto.getRandomValues(new Uint8Array(12)), function (b) { return (b % 36).toString(36); }).join('');
+        try { localStorage.setItem('sb_vid', id); } catch (e) {}
+      }
+      return id;
+    }
+
+    function track(code, type) {
+      const body = JSON.stringify({ code: code, vid: viewerId(), type: type });
+      try {
+        if (navigator.sendBeacon && navigator.sendBeacon(ACCESS_API + '/api/event', new Blob([body], { type: 'text/plain' }))) return;
+      } catch (e) {}
+      fetch(ACCESS_API + '/api/event', { method: 'POST', body: body, keepalive: true }).catch(function () {});
+    }
+
+    function trackViewing(code) {
+      let played = false, completed = false;
+      video.addEventListener('play', function () {
+        if (!played) { played = true; track(code, 'play'); }
+      });
+      video.addEventListener('timeupdate', function () {
+        if (!completed && video.duration && video.currentTime / video.duration >= 0.9) {
+          completed = true;
+          track(code, 'complete');
+        }
+      });
     }
 
     // 2. STREAM ENGINE

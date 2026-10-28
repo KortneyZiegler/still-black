@@ -50,6 +50,10 @@
     .pill.on { color: var(--green); background: var(--green-bg); }
     .pill.off { color: var(--muted); background: var(--subtle); }
     .pill.exp { color: var(--amber); background: var(--amber-bg); }
+    .stats { min-width: 150px; }
+    .stat-main { font-weight: 700; color: var(--ink); }
+    .stat-sub { font-size: 12px; color: var(--muted); }
+    .stat-last { font-size: 11px; color: var(--muted); margin-top: 3px; }
     .pill.kind { color: var(--blue); background: var(--tint); margin-left: 6px; }
     .kind-toggle { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
     .kind-toggle label { display: block; border: 1px solid var(--line2); border-radius: 10px; padding: 12px 14px; cursor: pointer; font-weight: 400; }
@@ -84,7 +88,7 @@
   <main id="appView" style="display:none">
     <form class="card" onsubmit="createOrg(event)">
       <h2>Create a screening link</h2>
-      <p class="hint">Creates a private screening room link and password. It works immediately.</p>
+      <p class="hint">Creates a private screening room link. Anyone with the link can enter, so share it only with the organization. It works immediately.</p>
       <div class="kind-toggle" role="radiogroup">
         <label><input type="radio" name="kind" value="org" checked onchange="kindChanged()"> <strong>Organization license</strong><span>Paid screening. Link: screening.zieglerlab.online/?key=CODE</span></label>
         <label><input type="radio" name="kind" value="preview" onchange="kindChanged()"> <strong>Preview link</strong><span>For prospects to evaluate. Expires in 7 days unless you pick a date.</span></label>
@@ -95,9 +99,9 @@
           <input id="orgName" placeholder="e.g. Rainbow Center Community Screening" required oninput="suggestCode()">
         </div>
         <div>
-          <label for="orgCode">Link code</label>
+          <label for="orgCode">Link name</label>
           <input id="orgCode" placeholder="RAINBOW" oninput="this.dataset.touched = 1">
-          <div class="field-note" id="codeNote">Their link ends in ?key=CODE</div>
+          <div class="field-note" id="codeNote">A random code is added, e.g. ?key=RAINBOW-K7Q2XM</div>
         </div>
         <div>
           <label for="orgUntil">Access ends</label>
@@ -119,7 +123,7 @@
       <p class="hint" id="countHint">Loading…</p>
       <div class="table-wrap">
         <table>
-          <thead><tr><th>Screening link</th><th>Password</th><th>Access ends</th><th>Status</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Screening link</th><th>Viewers</th><th>Access ends</th><th>Status</th><th>Actions</th></tr></thead>
           <tbody id="orgRows"></tbody>
         </table>
       </div>
@@ -196,7 +200,6 @@
       if (o.kind === 'preview') {
         return 'Here is your private preview of STILL BLACK: A Portrait of Black Trans Men.\n\n' +
           'Link: ' + o.link + '\n' +
-          'Password: ' + o.password + '\n' +
           (o.until ? 'Preview available through: ' + formatDate(o.until) + '\n' : '') +
           '\nYou can watch the full film and explore the screening room your community would use, ' +
           'including the discussion guide and promo kit. To license a screening for your organization ($500), ' +
@@ -204,9 +207,8 @@
       }
       return 'Your STILL BLACK screening room is ready!\n\n' +
         'Link: ' + o.link + '\n' +
-        'Password: ' + o.password + '\n' +
         (o.until ? 'Access through: ' + formatDate(o.until) + '\n' : '') +
-        '\nShare the link and password with your attendees. The film streams on any phone, tablet, or computer, ' +
+        '\nShare the link with your attendees; no password is needed. Please don\u2019t post it publicly. The film streams on any phone, tablet, or computer, ' +
         'and the Host Toolkit on the page has the run of show, discussion guide, and promo kit.';
     }
 
@@ -241,7 +243,6 @@
 
     async function act(code, action, extra) {
       if (action === 'delete' && !confirm('Delete ' + code + '? Their link will stop working. This cannot be undone.')) return;
-      if (action === 'reset' && !confirm('Give ' + code + ' a new password? The old one will stop working right away.')) return;
       try {
         await api('/api/admin/orgs/' + encodeURIComponent(code), Object.assign({ action: action }, extra || {}));
         refresh();
@@ -267,6 +268,17 @@
       return n;
     }
 
+    function statsCell(st) {
+      st = st || {};
+      const box = el('div', { class: 'stats' }, [
+        el('div', { class: 'stat-main', text: (st.open || 0) + ' visitors' }),
+        el('div', { class: 'stat-sub', text: (st.enter || 0) + ' entered \u00b7 ' + (st.play || 0) + ' started film' }),
+        el('div', { class: 'stat-sub', text: (st.complete || 0) + ' watched to the end' })
+      ]);
+      if (st.last) box.appendChild(el('div', { class: 'stat-last', text: 'Last visit ' + new Date(st.last).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }) }));
+      return box;
+    }
+
     async function refresh() {
       const data = await api('/api/admin/orgs');
       const rows = document.getElementById('orgRows');
@@ -287,12 +299,11 @@
               el('span', { class: 'pill kind', text: o.kind === 'preview' ? 'Preview' : 'License' })]),
             el('div', { class: 'code mono', text: o.link.replace('https://', '') })
           ]),
-          el('td', {}, [el('span', { class: 'mono', text: o.password })]),
+          el('td', {}, [statsCell(o.stats)]),
           el('td', {}, [dateInput]),
           el('td', {}, [status]),
           el('td', {}, [el('div', { class: 'actions' }, [
             el('button', { class: 'btn-sm', text: 'Copy message', onclick: function (e) { copyText(messageFor(o), e.target); } }),
-            el('button', { class: 'btn-sm', text: 'New password', onclick: function () { act(o.code, 'reset'); } }),
             el('button', { class: 'btn-sm', text: o.active ? 'Turn off' : 'Turn on', onclick: function () { act(o.code, o.active ? 'disable' : 'enable'); } }),
             el('button', { class: 'btn-sm danger', text: 'Delete', onclick: function () { act(o.code, 'delete'); } })
           ])])

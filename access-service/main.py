@@ -1,7 +1,7 @@
 """STILL BLACK screening access service.
 
-Public:  GET  /api/org/<code>          org name + lock status (send X-Access-Token to check a saved unlock)
-         POST /api/org/<code>/unlock   {password} -> {token}
+Public:  GET  /api/org/<code>          org name, kind, and license status (links need no password)
+         POST /api/event               anonymous viewing analytics {code, vid, type}
          GET  /api/film[?code=CODE]     temporary signed link to the private film
                                        (org pages need X-Access-Token; the open page needs none)
 Admin:   GET  /admin                   admin page
@@ -35,6 +35,8 @@ FILM_OBJECT = os.environ.get("FILM_OBJECT", "STILLBLACKfilm-captioned (1).mp4")
 FILM_LINK_HOURS = 3
 OPEN_PAGE_PLAYS = os.environ.get("OPEN_PAGE_PLAYS", "1") == "1"
 PREVIEW_DAYS = 7
+EVENT_TYPES = ("open", "enter", "play", "complete")
+CODE_CHARS = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"  # no 0/O or 1/I lookalikes
 ALLOWED_ORIGINS = {o.strip() for o in os.environ.get(
     "ALLOWED_ORIGINS", "https://screening.zieglerlab.online").split(",")}
 WORDS = ("amber aspen birch bloom brook cedar clay cloud coral cove crane dawn dove ember fern "
@@ -98,8 +100,31 @@ def expired(rec):
 
 
 def link_for(code, rec):
-    """Org links: /?key=CODE. Preview links: /preview/?key=CODE."""
-    return f"{SITE}preview/?key={code}" if rec.get("kind") == "preview" else f"{SITE}?key={code}"
+    """Org links: /?key=CODE. Preview links: /preview/?key=CODE.
+    Newer links show their code with a hyphen (SAGE-K7Q2XM); lookups ignore it."""
+    shown = rec.get("display", code)
+    return f"{SITE}preview/?key={shown}" if rec.get("kind") == "preview" else f"{SITE}?key={shown}"
+
+
+def random_suffix():
+    return "".join(secrets.choice(CODE_CHARS) for _ in range(6))
+
+
+def link_stats():
+    """Unique viewers per link and step, from private event markers
+    (events/<CODE>/<type>/<viewer id>), one marker per viewer per step."""
+    stats = {}
+    for b in config_bucket.list_blobs(prefix="events/"):
+        parts = b.name.split("/")
+        if len(parts) != 4:
+            continue
+        _, code, kind, _vid = parts
+        st = stats.setdefault(code, {t: 0 for t in EVENT_TYPES} | {"last": ""})
+        if kind in EVENT_TYPES:
+            st[kind] += 1
+        if b.updated and b.updated.isoformat() > st["last"]:
+            st["last"] = b.updated.isoformat(timespec="seconds")
+    return stats
 
 
 def new_password():
@@ -130,9 +155,23 @@ def org_info(code):
     key, rec = resolve(code)
     if not rec or not rec.get("active", True):
         return jsonify(found=False), 404
-    unlocked = hmac.compare_digest(request.headers.get("X-Access-Token", ""), token_for(key, rec))
     return jsonify(found=True, code=key, name=rec["name"], kind=rec.get("kind", "org"),
-                   until=rec.get("until", ""), expired=expired(rec), unlocked=unlocked)
+                   until=rec.get("until", ""), expired=expired(rec), unlocked=True)
+
+
+@app.route("/api/event", methods=["POST", "OPTIONS"])
+def event():
+    if request.method == "OPTIONS":
+        return "", 204
+    body = request.get_json(silent=True, force=True) or {}
+    kind = body.get("type")
+    vid = str(body.get("vid", ""))
+    if kind not in EVENT_TYPES or not re.fullmatch(r"[a-z0-9]{8,40}", vid):
+        return "", 204
+    key, rec = resolve(body.get("code", ""))
+    if rec:
+        config_bucket.blob(f"events/{key}/{kind}/{vid}").upload_from_string("", content_type="text/plain")
+    return "", 204
 
 
 @app.route("/api/org/<code>/unlock", methods=["POST", "OPTIONS"])
@@ -206,22 +245,27 @@ def admin_orgs():
         return jsonify(error="Wrong admin password."), 401
     if request.method == "GET":
         orgs, _ = load(fresh=True)
-        out = [dict(code=k, link=link_for(k, v), expired=expired(v), **v) for k, v in orgs.items()]
+        stats = link_stats()
+        empty = {t: 0 for t in EVENT_TYPES} | {"last": ""}
+        out = [dict(code=k, link=link_for(k, v), expired=expired(v), stats=stats.get(k, empty), **v)
+               for k, v in orgs.items()]
         return jsonify(orgs=sorted(out, key=lambda o: o.get("created", ""), reverse=True))
     body = request.get_json(silent=True) or {}
     name = str(body.get("name", "")).strip()
-    code = norm(body.get("code") or name)[:24]
-    if not name or not code:
+    base = norm(body.get("code") or name)[:16]
+    if not name or not base:
         return jsonify(error="Please enter the organization's name."), 400
-    for _ in range(3):
+    for _ in range(5):
+        suffix = random_suffix()
+        code, display = base + suffix, f"{base}-{suffix}"
         orgs, gen = load(fresh=True)
         if code in orgs or any(code in v.get("aliases", []) for v in orgs.values()):
-            return jsonify(error=f"The code {code} is already in use. Choose a different code."), 409
+            continue
         kind = "preview" if body.get("kind") == "preview" else "org"
         until = body.get("until") or ""
         if kind == "preview" and not until:
             until = (dt.date.today() + dt.timedelta(days=PREVIEW_DAYS)).isoformat()
-        orgs[code] = {"name": name, "password": str(body.get("password") or new_password()).strip(),
+        orgs[code] = {"name": name, "display": display,
                       "until": until, "active": True, "kind": kind,
                       "created": dt.datetime.now(dt.timezone.utc).isoformat(timespec="seconds")}
         try:
@@ -245,9 +289,7 @@ def admin_update(code):
         if code not in orgs:
             return jsonify(error="Organization not found."), 404
         rec = orgs[code]
-        if action == "reset":
-            rec["password"] = new_password()
-        elif action == "until":
+        if action == "until":
             rec["until"] = body.get("until") or ""
         elif action == "rename":
             rec["name"] = str(body.get("name", rec["name"])).strip() or rec["name"]
