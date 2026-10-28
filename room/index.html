@@ -1312,6 +1312,15 @@
       color: #374151;
     }
 
+    .org-gate-dateline {
+      font-size: 12px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--lab-teal-text);
+      margin-bottom: 10px;
+    }
+
     .org-gate-letter p + p {
       margin-top: 10px;
     }
@@ -1366,6 +1375,7 @@
       <p class="org-gate-tagline">Six Black trans men. Their stories, in their own words.</p>
       <div class="org-gate-faces" id="orgGateFaces"></div>
       <div class="org-gate-letter" id="orgGateLetter" style="display:none;">
+        <div class="org-gate-dateline" id="orgGateDateline" style="display:none;">November 2026 · Transgender Awareness Month</div>
         <p>I made <em>STILL BLACK</em> so Black trans men could tell their own stories, in their own words. Since it premiered in 2008, it has helped spark more stories about a community that rarely gets the attention it deserves. Thank you for watching, and for staying for the conversation.</p>
         <div class="org-gate-signature">
           <span class="org-gate-sig-name">Dr. Kortney Ryan Ziegler</span>
@@ -1910,6 +1920,9 @@ Watch with {ORG}: {LINK}
       msg.textContent = '';
       msg.className = 'org-gate-msg';
       document.getElementById('orgGateLetter').style.display = 'block';
+      if (new Date() < new Date('2026-12-01T00:00:00')) {   // through Transgender Awareness Month 2026
+        document.getElementById('orgGateDateline').style.display = 'block';
+      }
       document.getElementById('orgGateExtras').style.display = 'block';
       form.style.display = 'block';
       form.querySelector('button').focus();
